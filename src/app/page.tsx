@@ -35,7 +35,7 @@ const works = [
   },
   {
     tag: "DEMO",
-    title: "予約管理システム",
+    title: "予約システム",
     desc: "整骨院・美容院などに対応したオンライン予約デモです。メニュー選択・カレンダー日時選択・スタッフ向け管理画面（ステータス更新）まで一通り体験できます。",
     href: "/booking/seikotsu-in",
     screenshot: "/screenshots/booking.png",
