@@ -43,7 +43,7 @@ export default function AdminPage() {
   return (
     <>
       <div className="admin-header">
-        <div className="admin-header-logo">🌿 NAGINAINE SEIKOTSUIN</div>
+        <div className="admin-header-logo">🌿 ABC SEIKOTSUIN</div>
         <h1 className="admin-header-title">スタッフ管理画面</h1>
         <p className="admin-header-sub">来院記録 管理システム</p>
       </div>
