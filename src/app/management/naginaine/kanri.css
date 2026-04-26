@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+.kanri-root {
+  --primary: #4a9b6f;
+  --primary-dark: #357a56;
+  --primary-light: #6dbd90;
+  --primary-pale: #e8f5ee;
+  --primary-ultra: #f2faf5;
+  --accent: #2d7a4f;
+  --text: #1e2d24;
+  --muted: #7a9585;
+  --border: #c8e0d2;
+  --bg: #f0f8f3;
+  --white: #ffffff;
+  --red: #d94f4f;
+  --radius: 14px;
+  --shadow: 0 2px 14px rgba(74,155,111,0.10);
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.kanri-root * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.kanri-root label { display: block; font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 7px; }
+.kanri-root label .required { color: var(--red); margin-left: 4px; font-size: 11px; }
+.kanri-root .sub-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; margin-top: -4px; }
+
+.kanri-root input[type="text"],
+.kanri-root input[type="date"],
+.kanri-root input[type="tel"],
+.kanri-root select,
+.kanri-root textarea {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 9px;
+  font-size: 16px; font-family: inherit; color: var(--text); background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none;
+}
+.kanri-root input:focus, .kanri-root select:focus, .kanri-root textarea:focus {
+  outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(74,155,111,0.13);
+}
+.kanri-root textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+.kanri-root .radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.kanri-root .radio-btn { position: relative; }
+.kanri-root .radio-btn input { position: absolute; opacity: 0; width: 0; height: 0; }
+.kanri-root .radio-btn label { display: inline-flex; align-items: center; padding: 9px 16px; border: 1.5px solid var(--border); border-radius: 50px; font-size: 14px; color: var(--text); cursor: pointer; transition: all 0.15s; user-select: none; background: var(--primary-ultra); }
+.kanri-root .radio-btn input:checked + label { background: var(--primary); border-color: var(--primary); color: white; font-weight: 600; }
+
+.kanri-root .field { margin-bottom: 20px; }
+
+.kanri-root .pain-scale { display: flex; gap: 4px; }
+.kanri-root .pain-scale-item { position: relative; flex: 1; }
+.kanri-root .pain-scale-item input { position: absolute; opacity: 0; width: 0; height: 0; }
+.kanri-root .pain-scale-item label { display: flex; align-items: center; justify-content: center; height: 42px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: var(--muted); background: var(--primary-ultra); }
+.kanri-root .pain-scale-item input:checked + label { color: white; border-color: transparent; }
+.kanri-root .pain-scale-item:nth-child(1) input:checked + label{background:#4aaa72}
+.kanri-root .pain-scale-item:nth-child(2) input:checked + label{background:#6dbd6d}
+.kanri-root .pain-scale-item:nth-child(3) input:checked + label{background:#a8cc55;color:#333}
+.kanri-root .pain-scale-item:nth-child(4) input:checked + label{background:#d4b840;color:#333}
+.kanri-root .pain-scale-item:nth-child(5) input:checked + label{background:#e89430}
+.kanri-root .pain-scale-item:nth-child(6) input:checked + label{background:#e06020}
+.kanri-root .pain-scale-item:nth-child(7) input:checked + label{background:#d94040}
+.kanri-root .pain-scale-item:nth-child(8) input:checked + label{background:#c02828}
+.kanri-root .pain-scale-item:nth-child(9) input:checked + label{background:#961818}
+.kanri-root .pain-scale-item:nth-child(10) input:checked + label{background:#6a0a0a}
+
+.kanri-root .selected-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.kanri-root .part-tag { display: inline-flex; align-items: center; gap: 5px; background: #fde8e8; border: 1px solid #f0b8b8; color: #b83232; border-radius: 50px; padding: 4px 10px 4px 12px; font-size: 12px; font-weight: 500; }
+.kanri-root .part-tag .rm { cursor: pointer; font-size: 15px; line-height: 1; opacity: 0.7; padding: 0 2px; }
+.kanri-root .part-tag .rm:hover { opacity: 1; }
+
+.kanri-root .admin-header { background: linear-gradient(135deg, #1e4d35 0%, var(--primary-dark) 60%, var(--primary) 100%); color: white; text-align: center; padding: 28px 20px 24px; position: relative; overflow: hidden; }
+.kanri-root .admin-header::after { content: ''; display: block; height: 5px; background: linear-gradient(90deg, var(--primary-light), #a8dfc0, var(--primary-light)); position: absolute; bottom: 0; left: 0; right: 0; }
+.kanri-root .admin-header-logo { font-size: 11px; letter-spacing: 0.2em; opacity: 0.7; margin-bottom: 4px; font-weight: 300; }
+.kanri-root .admin-header-title { font-size: 22px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 2px; }
+.kanri-root .admin-header-sub { font-size: 11px; opacity: 0.65; letter-spacing: 0.1em; }
+
+.kanri-root .admin-wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
+
+.kanri-root .admin-search-wrap { display: flex; align-items: center; gap: 10px; background: white; border: 1.5px solid var(--border); border-radius: 50px; padding: 10px 16px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.kanri-root .admin-search-icon { font-size: 16px; flex-shrink: 0; }
+.kanri-root .admin-search-input { flex: 1; border: none; outline: none; font-size: 15px; font-family: inherit; color: var(--text); background: transparent; }
+.kanri-root .admin-search-input::placeholder { color: var(--muted); }
+.kanri-root .admin-search-clear { background: none; border: none; font-size: 18px; color: var(--muted); cursor: pointer; padding: 0 4px; line-height: 1; }
+.kanri-root .admin-search-clear:hover { color: var(--text); }
+.kanri-root .admin-list-meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; padding-left: 4px; }
+
+.kanri-root .patient-list { display: flex; flex-direction: column; gap: 10px; }
+.kanri-root .patient-card { display: flex; align-items: center; gap: 14px; background: white; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow); }
+.kanri-root .patient-card:hover { border-color: var(--primary-light); box-shadow: 0 4px 20px rgba(74,155,111,0.18); transform: translateY(-1px); }
+.kanri-root .patient-card:active { transform: scale(0.99); }
+
+.kanri-root .patient-avatar { width: 46px; height: 46px; min-width: 46px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: white; }
+.kanri-root .patient-avatar.large { width: 56px; height: 56px; min-width: 56px; font-size: 24px; }
+
+.kanri-root .patient-card-body { flex: 1; min-width: 0; }
+.kanri-root .patient-name-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+.kanri-root .patient-name { font-size: 17px; font-weight: 700; color: var(--text); }
+.kanri-root .patient-kana { font-size: 11px; color: var(--muted); }
+.kanri-root .patient-meta { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.kanri-root .patient-meta-sub { font-size: 11px; color: #a0b8aa; }
+
+.kanri-root .patient-card-right { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.kanri-root .visit-badge { background: var(--primary-pale); color: var(--primary-dark); border: 1px solid var(--border); border-radius: 50px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.kanri-root .chevron-icon { font-size: 22px; color: var(--muted); line-height: 1; }
+.kanri-root .admin-empty { text-align: center; color: var(--muted); padding: 48px 0; font-size: 14px; }
+
+.kanri-root .back-btn { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1.5px solid var(--border); border-radius: 50px; padding: 9px 18px; font-size: 13px; font-weight: 600; color: var(--primary-dark); cursor: pointer; margin-bottom: 18px; transition: all 0.15s; font-family: inherit; }
+.kanri-root .back-btn:hover { border-color: var(--primary); background: var(--primary-pale); }
+
+.kanri-root .patient-info-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 22px; }
+.kanri-root .patient-info-top { display: flex; align-items: center; gap: 14px; padding: 18px 18px 14px; border-bottom: 1px solid var(--border); }
+.kanri-root .patient-detail-name { font-size: 22px; font-weight: 700; color: var(--text); }
+.kanri-root .patient-detail-kana { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.kanri-root .info-grid { padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+.kanri-root .info-row { display: flex; gap: 12px; font-size: 13px; align-items: flex-start; }
+.kanri-root .info-label { color: var(--muted); min-width: 90px; flex-shrink: 0; font-size: 12px; padding-top: 1px; }
+
+.kanri-root .intake-summary { border-top: 1px solid var(--border); background: var(--primary-ultra); }
+.kanri-root .intake-summary-title { padding: 10px 18px 4px; font-size: 12px; font-weight: 700; color: var(--primary-dark); letter-spacing: 0.05em; }
+
+.kanri-root .visits-section { margin-top: 4px; }
+.kanri-root .visits-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.kanri-root .visits-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.kanri-root .add-record-btn { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border: none; border-radius: 50px; padding: 10px 20px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 3px 12px rgba(74,155,111,0.35); transition: all 0.15s; }
+.kanri-root .add-record-btn:hover { box-shadow: 0 5px 18px rgba(74,155,111,0.45); transform: translateY(-1px); }
+
+.kanri-root .timeline { position: relative; padding-left: 22px; }
+.kanri-root .timeline::before { content: ''; position: absolute; left: 7px; top: 12px; bottom: 12px; width: 2px; background: var(--border); }
+.kanri-root .timeline-item { position: relative; margin-bottom: 18px; }
+.kanri-root .timeline-dot { position: absolute; left: -22px; top: 14px; width: 14px; height: 14px; background: var(--primary); border: 3px solid white; border-radius: 50%; box-shadow: 0 0 0 2px var(--primary-light); }
+.kanri-root .timeline-dot.initial { background: var(--muted); box-shadow: 0 0 0 2px var(--border); }
+
+.kanri-root .visit-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.kanri-root .initial-card { opacity: 0.75; }
+.kanri-root .visit-card-header { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--border); background: var(--primary-ultra); flex-wrap: wrap; gap: 8px; }
+.kanri-root .visit-card-header-left { display: flex; align-items: center; gap: 10px; }
+.kanri-root .visit-date { font-size: 14px; font-weight: 700; color: var(--text); }
+.kanri-root .visit-num-badge { font-size: 11px; font-weight: 700; background: var(--primary-dark); color: white; border-radius: 50px; padding: 2px 10px; }
+.kanri-root .visit-staff { font-size: 12px; color: var(--muted); }
+.kanri-root .initial-label { font-size: 11px; font-weight: 700; background: var(--muted); color: white; border-radius: 50px; padding: 2px 10px; }
+.kanri-root .visit-card-header-right { display: flex; align-items: center; gap: 6px; }
+
+.kanri-root .pain-level-badge { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 50px; color: white; background: var(--primary); }
+.kanri-root .pain-level-badge[data-lv="1"] { background: #4aaa72; }
+.kanri-root .pain-level-badge[data-lv="2"] { background: #6dbd6d; }
+.kanri-root .pain-level-badge[data-lv="3"] { background: #a8cc55; color: #333; }
+.kanri-root .pain-level-badge[data-lv="4"] { background: #d4b840; color: #333; }
+.kanri-root .pain-level-badge[data-lv="5"] { background: #e89430; }
+.kanri-root .pain-level-badge[data-lv="6"] { background: #e06020; }
+.kanri-root .pain-level-badge[data-lv="7"] { background: #d94040; }
+.kanri-root .pain-level-badge[data-lv="8"] { background: #c02828; }
+.kanri-root .pain-level-badge[data-lv="9"] { background: #961818; }
+.kanri-root .pain-level-badge[data-lv="10"] { background: #6a0a0a; }
+
+.kanri-root .change-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
+.kanri-root .change-good { background: #e6f9ee; color: #2d7a4f; border: 1px solid #b8e8cc; }
+.kanri-root .change-bad { background: #fde8e8; color: #b83232; border: 1px solid #f0b8b8; }
+.kanri-root .change-neutral { background: #f5f5f5; color: #666; border: 1px solid #ddd; }
+
+.kanri-root .visit-section { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.kanri-root .visit-section:last-child { border-bottom: none; }
+.kanri-root .visit-section-label { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: 0.05em; margin-bottom: 5px; }
+.kanri-root .visit-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+.kanri-root .part-tag-sm { display: inline-flex; align-items: center; background: #fde8e8; border: 1px solid #f0b8b8; color: #b83232; border-radius: 50px; padding: 2px 10px; font-size: 11px; font-weight: 500; margin: 2px 3px 2px 0; }
+
+.kanri-root .visit-footer { padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 10px; background: #fcfcfc; border-top: 1px solid var(--border); }
+.kanri-root .next-appointment { font-size: 12px; color: var(--primary-dark); font-weight: 600; }
+.kanri-root .visit-notes { font-size: 12px; color: var(--muted); }
+
+.kanri-root .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 500; display: flex; align-items: flex-end; justify-content: center; }
+@media (min-width: 600px) { .kanri-root .modal-overlay { align-items: center; } }
+.kanri-root .modal-box { background: white; border-radius: 20px 20px 0 0; width: 100%; max-width: 680px; max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 -8px 40px rgba(0,0,0,0.2); animation: slideUp 0.25s ease; }
+@media (min-width: 600px) { .kanri-root .modal-box { border-radius: 20px; max-height: 88vh; } }
+@keyframes slideUp { from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1} }
+.kanri-root .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.kanri-root .modal-title { font-size: 17px; font-weight: 700; color: var(--text); }
+.kanri-root .modal-close { background: none; border: none; font-size: 24px; color: var(--muted); cursor: pointer; padding: 0 4px; line-height: 1; }
+.kanri-root .modal-close:hover { color: var(--text); }
+.kanri-root .modal-body { overflow-y: auto; padding: 18px 20px; flex: 1; }
+.kanri-root .modal-footer { display: flex; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--border); flex-shrink: 0; }
+.kanri-root .btn-cancel { flex: 1; padding: 13px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--muted); background: white; cursor: pointer; font-family: inherit; }
+.kanri-root .btn-save { flex: 2; padding: 13px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 3px 14px rgba(74,155,111,0.35); }
+.kanri-root .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.kanri-root .body-views { display: flex; gap: 24px; justify-content: center; margin: 10px 0; }
+.kanri-root .body-view-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.kanri-root .body-view-label { font-size: 11px; font-weight: 700; color: var(--primary-dark); letter-spacing: 0.05em; }
+.kanri-root .body-view-wrap { position: relative; }
+.kanri-root .body-svg { display: block; }
+.kanri-root .body-region { transition: opacity 0.1s; }
+.kanri-root .body-region:hover { opacity: 0.85; }
+.kanri-root .lr-label { font-size: 9px; fill: rgba(80,140,100,0.5); pointer-events: none; }
+.kanri-root .body-map-hint { font-size: 11px; color: var(--muted); text-align: center; margin-top: 4px; }

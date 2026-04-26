@@ -39,6 +39,13 @@ const works = [
     href: "/booking/seikotsu-in",
     icon: "📅",
   },
+  {
+    tag: "DEMO",
+    title: "来院記録 管理ツール",
+    desc: "整骨院向けスタッフ管理システムのデモです。患者カルテの管理・来院記録のタイムライン表示・施術部位の人体図タップ選択など、現場で使える機能を実装しています。",
+    href: "/management/naginaine",
+    icon: "🏥",
+  },
 ];
 
 export default function Home() {
