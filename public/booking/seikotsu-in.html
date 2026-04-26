@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オンライン予約 | ABC整骨院</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #2dd4bf;
+    --primary-pale: #f0fdfa;
+    --primary-ultra: #f8fffe;
+    --text: #1a2e2c;
+    --muted: #6b7280;
+    --border: #99f6e4;
+    --bg: #f8fffe;
+    --white: #ffffff;
+    --red: #ef4444;
+    --radius: 10px;
+    --shadow: 0 2px 14px rgba(13,148,136,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  header { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%); color: white; padding: 22px 20px 18px; text-align: center; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.07); }
+  .header-logo { font-size: 12px; letter-spacing: 0.2em; opacity: 0.85; margin-bottom: 4px; font-weight: 300; }
+  header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.06em; }
+  header .subtitle { font-size: 11px; opacity: 0.75; letter-spacing: 0.08em; margin-top: 3px; }
+
+  /* TABS */
+  .tabs { display: flex; background: white; border-bottom: 2px solid var(--border); }
+  .tab { flex: 1; padding: 13px 8px; text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--primary-pale); }
+
+  /* STEP INDICATOR */
+  .steps-wrap { background: white; padding: 14px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+  .steps { display: flex; align-items: center; justify-content: center; }
+  .step { display: flex; align-items: center; gap: 5px; }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); background: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--muted); transition: all 0.3s; flex-shrink: 0; }
+  .step-label { font-size: 11px; color: var(--muted); font-weight: 500; white-space: nowrap; transition: color 0.3s; }
+  .step.active .step-num { background: var(--primary); border-color: var(--primary); color: white; }
+  .step.active .step-label { color: var(--primary); font-weight: 700; }
+  .step.done .step-num { background: var(--primary-light); border-color: var(--primary-light); color: white; }
+  .step.done .step-label { color: var(--primary); }
+  .step-line { width: 18px; height: 2px; background: var(--border); margin: 0 4px; flex-shrink: 0; transition: background 0.3s; }
+
+  /* CONTAINER */
+  .container { max-width: 600px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  /* PANELS */
+  .panel { display: none; animation: fadeUp 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  /* SECTION TITLE */
+  .section-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+
+  /* MENU CARDS */
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .menu-card { background: white; border: 2px solid var(--border); border-radius: 14px; padding: 18px 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .menu-card:hover { border-color: var(--primary-light); box-shadow: 0 4px 16px rgba(13,148,136,0.15); transform: translateY(-2px); }
+  .menu-card.selected { border-color: var(--primary); background: var(--primary-pale); }
+  .menu-card .menu-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+  .menu-card .menu-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+  .menu-card .menu-dur { font-size: 11px; color: var(--muted); }
+  .menu-card .menu-price { font-size: 13px; font-weight: 700; color: var(--primary); margin-top: 6px; }
+
+  /* CALENDAR */
+  .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; margin-bottom: 14px; border: 1px solid #ccfbf1; }
+  .card-title { font-size: 14px; font-weight: 700; color: var(--primary-dark); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .cal-btn { background: var(--primary-pale); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; color: var(--primary-dark); font-family: inherit; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .cal-btn:hover { background: #ccfbf1; }
+  .cal-title { font-size: 16px; font-weight: 700; color: var(--text); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .cal-head { text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); padding: 5px 0; }
+  .cal-head:first-child { color: #ef4444; }
+  .cal-head:last-child { color: #3b82f6; }
+  .cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 13px; font-weight: 500; transition: all 0.15s; cursor: default; }
+  .cal-cell.avail { cursor: pointer; }
+  .cal-cell.avail:hover { background: var(--primary-pale); color: var(--primary); }
+  .cal-cell.selected { background: var(--primary); color: white; font-weight: 700; }
+  .cal-cell.today { border: 2px solid var(--primary-light); }
+  .cal-cell.past { color: #d1d5db; }
+  .cal-cell.sun { color: #ef4444; }
+  .cal-cell.sat { color: #3b82f6; }
+  .cal-cell.sun.selected, .cal-cell.sat.selected { color: white; }
+
+  /* TIME SLOTS */
+  .time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .slot { background: white; border: 2px solid var(--border); border-radius: 10px; padding: 10px 6px; text-align: center; cursor: pointer; transition: all 0.15s; }
+  .slot:hover { border-color: var(--primary-light); }
+  .slot.selected { border-color: var(--primary); background: var(--primary-pale); }
+  .slot.full { background: #f9fafb; border-color: #e5e7eb; cursor: not-allowed; }
+  .slot-time { font-size: 15px; font-weight: 700; color: var(--text); }
+  .slot.full .slot-time { color: #9ca3af; }
+  .slot-status { font-size: 10px; color: var(--primary); margin-top: 2px; font-weight: 600; }
+  .slot.full .slot-status { color: #d1d5db; }
+
+  /* FORM */
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  label { display: block; font-size: 13px; font-weight: 500; color: var(--primary-dark); margin-bottom: 6px; }
+  label .req { color: var(--red); margin-left: 4px; font-size: 11px; }
+  input[type="text"], input[type="tel"], textarea, select {
+    width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 9px;
+    font-size: 15px; font-family: inherit; color: var(--text); background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(13,148,136,0.12); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230d9488' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+  /* CONFIRM TABLE */
+  .confirm-table { width: 100%; border-collapse: collapse; }
+  .confirm-table tr { border-bottom: 1px solid var(--border); }
+  .confirm-table tr:last-child { border-bottom: none; }
+  .confirm-table td { padding: 12px 8px; font-size: 13px; vertical-align: top; }
+  .confirm-table td:first-child { color: var(--muted); width: 110px; font-weight: 500; }
+  .confirm-table td:last-child { color: var(--text); font-weight: 600; }
+
+  /* BUTTONS */
+  .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-primary { flex: 2; background: linear-gradient(135deg, var(--primary-dark), var(--primary), var(--primary-light)); color: white; border: none; padding: 16px; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: inherit; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .btn-secondary { flex: 1; background: var(--primary-pale); color: var(--primary-dark); border: 1.5px solid var(--border); padding: 16px; border-radius: 10px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { background: #ccfbf1; }
+  .date-hint { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+
+  /* SUCCESS */
+  .success-screen { text-align: center; padding: 36px 16px; }
+  .check-icon { width: 78px; height: 78px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 20px; animation: popIn 0.4s ease 0.1s both; }
+  @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+  .success-screen h2 { font-size: 22px; font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; }
+  .success-screen p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+  .booking-summary { background: var(--primary-pale); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; margin: 18px 0; text-align: left; }
+  .summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row span:first-child { color: var(--muted); }
+  .summary-row span:last-child { font-weight: 600; color: var(--text); }
+
+  /* NOTE */
+  .note { font-size: 11px; color: var(--muted); line-height: 1.7; background: var(--primary-pale); border-radius: 8px; padding: 10px 12px; margin-top: 12px; border: 1px solid var(--border); }
+
+  /* MANAGEMENT */
+  .mgmt-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 14px; }
+  .mgmt-date { font-size: 18px; font-weight: 700; color: var(--text); }
+  .mgmt-date-sub { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .mgmt-count { font-size: 13px; color: var(--primary); background: var(--primary-pale); border: 1px solid var(--border); padding: 4px 14px; border-radius: 50px; font-weight: 700; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat { background: white; border: 1.5px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+  .stat-num { font-size: 26px; font-weight: 700; color: var(--primary); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .booking-list { display: flex; flex-direction: column; gap: 10px; }
+  .b-item { background: white; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 14px; display: flex; align-items: flex-start; gap: 12px; }
+  .b-time-block { text-align: center; background: var(--primary-pale); border-radius: 8px; padding: 8px 10px; min-width: 56px; flex-shrink: 0; }
+  .b-time { font-size: 16px; font-weight: 700; color: var(--primary-dark); }
+  .b-tilde { font-size: 10px; color: var(--muted); }
+  .b-info { flex: 1; min-width: 0; }
+  .b-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .b-menu { font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 2px; }
+  .b-tel { font-size: 12px; color: var(--muted); }
+  .b-status { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+  .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 50px; white-space: nowrap; }
+  .badge-waiting { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-in { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .badge-done { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+  .status-btn { font-size: 11px; background: var(--primary-pale); color: var(--primary-dark); border: 1px solid var(--border); border-radius: 6px; padding: 4px 9px; cursor: pointer; font-family: inherit; font-weight: 600; white-space: nowrap; }
+  .status-btn:hover { background: #ccfbf1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">🏥 ABC SEIKOTSUIN</div>
+  <h1>ABC整骨院</h1>
+  <p class="subtitle">オンライン予約システム / Online Booking</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" id="tab-booking" onclick="switchTab('booking')">📅 予約する（患者向け）</div>
+  <div class="tab" id="tab-mgmt" onclick="switchTab('mgmt')">⚙️ 管理画面（スタッフ用）</div>
+</div>
+
+<!-- ===== 予約フォーム ===== -->
+<div id="booking-screen">
+  <div class="steps-wrap">
+    <div class="steps">
+      <div class="step active" id="step-1">
+        <div class="step-num">1</div>
+        <div class="step-label">メニュー</div>
+      </div>
+      <div class="step-line" id="line-1"></div>
+      <div class="step" id="step-2">
+        <div class="step-num">2</div>
+        <div class="step-label">日時</div>
+      </div>
+      <div class="step-line" id="line-2"></div>
+      <div class="step" id="step-3">
+        <div class="step-num">3</div>
+        <div class="step-label">お客様情報</div>
+      </div>
+      <div class="step-line" id="line-3"></div>
+      <div class="step" id="step-4">
+        <div class="step-num">4</div>
+        <div class="step-label">確認</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- STEP 1: メニュー -->
+    <div class="panel active" id="panel-1">
+      <p class="section-title">施術メニューを選んでください</p>
+      <div class="menu-grid">
+        <div class="menu-card" onclick="selectMenu(this,'初回体験コース','50分','初回限定 ¥3,000')">
+          <span class="menu-icon">🌟</span>
+          <div class="menu-name">初回体験コース</div>
+          <div class="menu-dur">⏱ 50分</div>
+          <div class="menu-price">初回限定 ¥3,000</div>
+        </div>
+        <div class="menu-card" onclick="selectMenu(this,'腰痛・肩こりケア','40分','¥4,500')">
+          <span class="menu-icon">💆</span>
+          <div class="menu-name">腰痛・肩こりケア</div>
+          <div class="menu-dur">⏱ 40分</div>
+          <div class="menu-price">¥4,500</div>
+        </div>
+        <div class="menu-card" onclick="selectMenu(this,'スポーツケア','60分','¥6,000')">
+          <span class="menu-icon">⚽</span>
+          <div class="menu-name">スポーツケア</div>
+          <div class="menu-dur">⏱ 60分</div>
+          <div class="menu-price">¥6,000</div>
+        </div>
+        <div class="menu-card" onclick="selectMenu(this,'全身調整コース','80分','¥7,500')">
+          <span class="menu-icon">✨</span>
+          <div class="menu-name">全身調整コース</div>
+          <div class="menu-dur">⏱ 80分</div>
+          <div class="menu-price">¥7,500</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" id="btn-next-1" disabled onclick="goStep(2)">日時を選ぶ →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: 日時 -->
+    <div class="panel" id="panel-2">
+      <div class="card">
+        <div class="card-title">📅 日付を選んでください</div>
+        <div class="cal-nav">
+          <button class="cal-btn" onclick="changeMonth(-1)">‹ 前月</button>
+          <span class="cal-title" id="cal-title"></span>
+          <button class="cal-btn" onclick="changeMonth(1)">次月 ›</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+
+      <div class="card" id="time-card" style="display:none;">
+        <div class="card-title">🕐 時間を選んでください</div>
+        <p class="date-hint" id="date-hint"></p>
+        <div class="time-grid" id="time-grid"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goStep(1)">← 戻る</button>
+        <button class="btn-primary" id="btn-next-2" disabled onclick="goStep(3)">お客様情報へ →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 情報 -->
+    <div class="panel" id="panel-3">
+      <div class="card">
+        <div class="card-title">👤 お客様情報</div>
+        <div class="field"><label>お名前<span class="req">必須</span></label><input type="text" id="r-name" placeholder="例：山田 太郎"></div>
+        <div class="field"><label>フリガナ</label><input type="text" id="r-kana" placeholder="ヤマダ タロウ"></div>
+        <div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" id="r-tel" placeholder="090-0000-0000"></div>
+        <div class="field">
+          <label>ご来院歴</label>
+          <select id="r-visit"><option value="初めて">初めて</option><option value="2回目以降">2回目以降</option></select>
+        </div>
+        <div class="field"><label>ご要望・症状メモ</label><textarea id="r-note" placeholder="お体の状態・ご希望などがあればご記入ください"></textarea></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goStep(2)">← 戻る</button>
+        <button class="btn-primary" onclick="goToConfirm()">内容を確認する →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: 確認 -->
+    <div class="panel" id="panel-4">
+      <div class="card">
+        <div class="card-title">✅ 予約内容の確認</div>
+        <table class="confirm-table">
+          <tr><td>メニュー</td><td id="cf-menu"></td></tr>
+          <tr><td>日付</td><td id="cf-date"></td></tr>
+          <tr><td>時間</td><td id="cf-time"></td></tr>
+          <tr><td>お名前</td><td id="cf-name"></td></tr>
+          <tr><td>電話番号</td><td id="cf-tel"></td></tr>
+          <tr><td>ご来院歴</td><td id="cf-visit"></td></tr>
+          <tr><td>ご要望</td><td id="cf-note"></td></tr>
+        </table>
+      </div>
+      <div class="note">📢 こちらはデモのため実際の送信は行いません。実導入時は予約確認メールの自動送信・スプレッドシートへの記録が可能です。</div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goStep(3)">← 戻る</button>
+        <button class="btn-primary" onclick="submitBooking()">✅ 予約を確定する</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="panel" id="panel-success">
+      <div class="success-screen">
+        <div class="check-icon">✓</div>
+        <h2>予約が完了しました！</h2>
+        <p>ご予約ありがとうございます。<br>確認のご連絡をお電話でお送りします。</p>
+        <div class="booking-summary" id="success-summary"></div>
+        <p style="font-size:12px;color:var(--muted);">実際の導入では予約完了メールが自動送信されます</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 管理画面 ===== -->
+<div id="mgmt-screen" style="display:none;">
+  <div class="container">
+    <div class="mgmt-header">
+      <div>
+        <div class="mgmt-date-sub">本日の予約</div>
+        <div class="mgmt-date" id="mgmt-date"></div>
+      </div>
+      <div class="mgmt-count" id="mgmt-count"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="stat-waiting">0</div><div class="stat-label">来院待ち</div></div>
+      <div class="stat"><div class="stat-num" id="stat-in">0</div><div class="stat-label">施術中</div></div>
+      <div class="stat"><div class="stat-num" id="stat-done">0</div><div class="stat-label">完了</div></div>
+    </div>
+
+    <div class="booking-list" id="booking-list"></div>
+    <div class="note" style="margin-top:14px;">⚙️ こちらはスタッフ向け管理デモです。実際の導入時にはリアルタイム更新・予約変更・キャンセル対応が可能です。</div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let curStep = 1;
+let selMenu = null;
+let selDate = null;
+let selTime = null;
+let calYear, calMonth;
+
+const today = new Date();
+calYear = today.getFullYear();
+calMonth = today.getMonth();
+
+const DAYS = ['日','月','火','水','木','金','土'];
+const MONTHS = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+// ===== TABS =====
+function switchTab(tab) {
+  document.getElementById('tab-booking').classList.toggle('active', tab === 'booking');
+  document.getElementById('tab-mgmt').classList.toggle('active', tab === 'mgmt');
+  document.getElementById('booking-screen').style.display = tab === 'booking' ? 'block' : 'none';
+  document.getElementById('mgmt-screen').style.display = tab === 'mgmt' ? 'block' : 'none';
+}
+
+// ===== STEPS =====
+function setStep(n) {
+  document.getElementById('panel-' + curStep).classList.remove('active');
+  document.getElementById('panel-' + n).classList.add('active');
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step-' + i);
+    el.classList.remove('active','done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+    if (i < 4) {
+      const line = document.getElementById('line-' + i);
+      line.style.background = i < n ? 'var(--primary-light)' : 'var(--border)';
+    }
+  }
+  curStep = n;
+  window.scrollTo(0, 0);
+}
+
+function goStep(n) { setStep(n); }
+
+function goToConfirm() {
+  if (!document.getElementById('r-name').value.trim()) { alert('お名前を入力してください'); return; }
+  if (!document.getElementById('r-tel').value.trim()) { alert('電話番号を入力してください'); return; }
+  const d = selDate;
+  document.getElementById('cf-menu').textContent = selMenu.name + '（' + selMenu.dur + ' / ' + selMenu.price + '）';
+  document.getElementById('cf-date').textContent = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日（' + DAYS[d.getDay()] + '）';
+  document.getElementById('cf-time').textContent = selTime;
+  document.getElementById('cf-name').textContent = document.getElementById('r-name').value.trim();
+  document.getElementById('cf-tel').textContent = document.getElementById('r-tel').value.trim();
+  document.getElementById('cf-visit').textContent = document.getElementById('r-visit').value;
+  document.getElementById('cf-note').textContent = document.getElementById('r-note').value.trim() || 'なし';
+  setStep(4);
+}
+
+// ===== MENU =====
+function selectMenu(el, name, dur, price) {
+  document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selMenu = { name, dur, price };
+  document.getElementById('btn-next-1').disabled = false;
+}
+
+// ===== CALENDAR =====
+function renderCalendar() {
+  document.getElementById('cal-title').textContent = calYear + '年 ' + MONTHS[calMonth];
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+  DAYS.forEach(d => {
+    const h = document.createElement('div');
+    h.className = 'cal-head';
+    h.textContent = d;
+    grid.appendChild(h);
+  });
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  for (let i = 0; i < firstDay; i++) {
+    const e = document.createElement('div'); e.className = 'cal-cell'; grid.appendChild(e);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(calYear, calMonth, d);
+    const dow = date.getDay();
+    const cell = document.createElement('div');
+    let cls = 'cal-cell';
+    if (dow === 0) cls += ' sun';
+    if (dow === 6) cls += ' sat';
+    if (date < todayMid) {
+      cls += ' past';
+    } else {
+      cls += ' avail';
+      if (date.toDateString() === today.toDateString()) cls += ' today';
+      if (selDate && date.toDateString() === selDate.toDateString()) cls += ' selected';
+      cell.addEventListener('click', (function(dt){ return () => selectDate(dt); })(date));
+    }
+    cell.className = cls;
+    cell.textContent = d;
+    grid.appendChild(cell);
+  }
+}
+
+function selectDate(date) {
+  selDate = date;
+  selTime = null;
+  document.getElementById('btn-next-2').disabled = true;
+  renderCalendar();
+  const d = date;
+  document.getElementById('date-hint').textContent = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日（' + DAYS[d.getDay()] + '）の空き時間';
+  document.getElementById('time-card').style.display = 'block';
+  renderTimeSlots(date);
+}
+
+function renderTimeSlots(date) {
+  const grid = document.getElementById('time-grid');
+  grid.innerHTML = '';
+  const seed = date.getDate() + date.getMonth() * 31;
+  const fixedFull = ['10:00','11:30','14:00','15:30'];
+  let idx = 0;
+  for (let h = 9; h < 18; h++) {
+    ['00','30'].forEach(m => {
+      const t = String(h).padStart(2,'0') + ':' + m;
+      const isFull = fixedFull.includes(t) || ((seed + idx) % 7 === 0);
+      const el = document.createElement('div');
+      el.className = 'slot' + (isFull ? ' full' : '');
+      if (selTime === t) el.classList.add('selected');
+      el.innerHTML = '<div class="slot-time">' + t + '</div><div class="slot-status">' + (isFull ? '× 満員' : '○ 空き') + '</div>';
+      if (!isFull) {
+        el.addEventListener('click', (function(time, elem){
+          return function() {
+            selTime = time;
+            document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+            elem.classList.add('selected');
+            document.getElementById('btn-next-2').disabled = false;
+          };
+        })(t, el));
+      }
+      grid.appendChild(el);
+      idx++;
+    });
+  }
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+}
+
+// ===== SUBMIT =====
+function submitBooking() {
+  const d = selDate;
+  const dateStr = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日（' + DAYS[d.getDay()] + '）';
+  document.getElementById('success-summary').innerHTML =
+    '<div class="summary-row"><span>メニュー</span><span>' + selMenu.name + '</span></div>' +
+    '<div class="summary-row"><span>日付</span><span>' + dateStr + '</span></div>' +
+    '<div class="summary-row"><span>時間</span><span>' + selTime + '</span></div>' +
+    '<div class="summary-row"><span>お名前</span><span>' + document.getElementById('r-name').value.trim() + ' 様</span></div>';
+  document.getElementById('panel-4').classList.remove('active');
+  document.getElementById('panel-success').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ===== MANAGEMENT =====
+const dummyBookings = [
+  { time:'09:00', name:'田中 花子', menu:'腰痛・肩こりケア', tel:'090-1234-5678', status:'done' },
+  { time:'10:30', name:'鈴木 一郎', menu:'初回体験コース',   tel:'080-9876-5432', status:'done' },
+  { time:'11:00', name:'佐藤 美咲', menu:'全身調整コース',   tel:'070-1111-2222', status:'in'   },
+  { time:'13:00', name:'山田 健太', menu:'スポーツケア',     tel:'090-3333-4444', status:'waiting'},
+  { time:'14:30', name:'伊藤 恵子', menu:'腰痛・肩こりケア', tel:'080-5555-6666', status:'waiting'},
+  { time:'15:00', name:'渡辺 大輔', menu:'全身調整コース',   tel:'070-7777-8888', status:'waiting'},
+  { time:'16:30', name:'中村 さくら',menu:'初回体験コース',  tel:'090-9999-0000', status:'waiting'},
+];
+
+function initMgmt() {
+  const n = new Date();
+  document.getElementById('mgmt-date').textContent = (n.getMonth()+1) + '月' + n.getDate() + '日（' + DAYS[n.getDay()] + '）';
+  renderMgmt();
+}
+
+function renderMgmt() {
+  const waiting = dummyBookings.filter(b => b.status==='waiting').length;
+  const inProg  = dummyBookings.filter(b => b.status==='in').length;
+  const done    = dummyBookings.filter(b => b.status==='done').length;
+  document.getElementById('stat-waiting').textContent = waiting;
+  document.getElementById('stat-in').textContent = inProg;
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('mgmt-count').textContent = '本日 ' + dummyBookings.length + '件';
+
+  const list = document.getElementById('booking-list');
+  list.innerHTML = '';
+  dummyBookings.forEach((b, i) => {
+    const statusText  = b.status==='waiting' ? '来院待ち' : b.status==='in' ? '施術中' : '完了';
+    const statusClass = b.status==='waiting' ? 'badge-waiting' : b.status==='in' ? 'badge-in' : 'badge-done';
+    const btnHtml = b.status==='waiting'
+      ? '<button class="status-btn" onclick="changeStatus(' + i + ',\'in\')">施術開始</button>'
+      : b.status==='in'
+      ? '<button class="status-btn" onclick="changeStatus(' + i + ',\'done\')">完了にする</button>'
+      : '';
+    const el = document.createElement('div');
+    el.className = 'b-item';
+    el.innerHTML =
+      '<div class="b-time-block"><div class="b-time">' + b.time + '</div><div class="b-tilde">〜</div></div>' +
+      '<div class="b-info"><div class="b-name">' + b.name + ' 様</div><div class="b-menu">' + b.menu + '</div><div class="b-tel">📞 ' + b.tel + '</div></div>' +
+      '<div class="b-status"><span class="badge ' + statusClass + '">' + statusText + '</span>' + btnHtml + '</div>';
+    list.appendChild(el);
+  });
+}
+
+function changeStatus(i, s) { dummyBookings[i].status = s; renderMgmt(); }
+
+// ===== INIT =====
+renderCalendar();
+initMgmt();
+</script>
+</body>
+</html>
