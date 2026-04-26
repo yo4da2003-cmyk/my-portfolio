@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 
@@ -30,21 +31,21 @@ const works = [
     title: "整骨院向け 問診票システム",
     desc: "紙の問診票をWeb化したデモです。受付スタッフの記入・転記作業をゼロに。部位タップ選択・痛みスケールなど、患者が直感的に操作できるUIを実装しています。",
     href: "/questionnaire/seikotsu-in",
-    icon: "📋",
+    screenshot: "/screenshots/questionnaire.png",
   },
   {
     tag: "DEMO",
     title: "予約管理システム",
     desc: "整骨院・美容院などに対応したオンライン予約デモです。メニュー選択・カレンダー日時選択・スタッフ向け管理画面（ステータス更新）まで一通り体験できます。",
     href: "/booking/seikotsu-in",
-    icon: "📅",
+    screenshot: "/screenshots/booking.png",
   },
   {
     tag: "DEMO",
     title: "来院記録 管理ツール",
     desc: "整骨院向けスタッフ管理システムのデモです。患者カルテの管理・来院記録のタイムライン表示・施術部位の人体図タップ選択など、現場で使える機能を実装しています。",
     href: "/management/naginaine",
-    icon: "🏥",
+    screenshot: "/screenshots/management.png",
   },
 ];
 
@@ -178,9 +179,14 @@ export default function Home() {
                   key={w.title}
                   className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group"
                 >
-                  <div className="h-48 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[#0a0a0a] opacity-0 group-hover:opacity-5 transition-opacity" />
-                    <span className="text-5xl">{w.icon}</span>
+                  <div className="h-48 relative overflow-hidden bg-gray-100">
+                    <Image
+                      src={w.screenshot}
+                      alt={w.title}
+                      fill
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-[#0a0a0a] opacity-0 group-hover:opacity-10 transition-opacity" />
                   </div>
                   <div className="p-7">
                     <span className="inline-block text-xs font-bold tracking-widest text-[#f97316] uppercase mb-3 border border-orange-200 bg-orange-50 px-2 py-0.5 rounded">
