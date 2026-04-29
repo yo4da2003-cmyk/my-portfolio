@@ -5,8 +5,8 @@ import React from "react";
 function renderRegionShape(shape: React.ReactNode, active: boolean, isFront: boolean): React.ReactNode {
   const activeFill = "rgba(217,79,79,0.55)";
   const activeStroke = "#b83232";
-  const normalFill = isFront ? "rgba(110,190,140,0.22)" : "rgba(90,170,120,0.18)";
-  const normalStroke = isFront ? "#7dba9a" : "#6aaa88";
+  const normalFill = isFront ? "rgba(240,160,96,0.22)" : "rgba(220,140,80,0.18)";
+  const normalStroke = isFront ? "#e07b2a" : "#c05f10";
 
   if (!shape) return null;
 

@@ -23,7 +23,7 @@ export default function KanriLayout({ children }: { children: React.ReactNode })
         <span style={{ color: "#333", fontSize: "13px" }}>|</span>
         <span style={{ color: "white", fontSize: "13px", fontWeight: 600 }}>ABC整骨院 管理ツール</span>
         <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", color: "#f97316", border: "1px solid #9a3412", backgroundColor: "#431407", padding: "2px 8px", borderRadius: "4px" }}>
-          DEMO
+          サンプル
         </span>
       </div>
       {children}

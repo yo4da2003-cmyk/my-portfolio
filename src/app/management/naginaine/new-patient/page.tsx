@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { savePatient, STAFF_LIST, BODY_PARTS_GROUPS, type Patient } from "../data";
+import { savePatient, STAFF_LIST, type Patient } from "../data";
+import { FrontSVG, BackSVG } from "../components/BodyMap";
 
 const emptyForm = {
   name: "", kana: "", birthday: "", gender: "", tel: "",
@@ -14,6 +15,12 @@ export default function NewPatientPage() {
   const router = useRouter();
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+
+  function togglePart(part: string) {
+    const parts = form.initialPainParts.split("・").filter(Boolean);
+    const next = parts.includes(part) ? parts.filter(p => p !== part) : [...parts, part];
+    setForm(f => ({ ...f, initialPainParts: next.join("・") }));
+  }
 
   function set<K extends keyof typeof emptyForm>(key: K, val: string) {
     setForm(f => ({ ...f, [key]: val }));
@@ -48,8 +55,9 @@ export default function NewPatientPage() {
       <div className="admin-wrap">
         <button className="back-btn" onClick={() => router.push("/management/naginaine")}>← 患者一覧に戻る</button>
 
-        <div className="patient-info-card">
-          <div className="intake-summary-title" style={{ marginBottom: "16px" }}>基本情報</div>
+        <div className="form-section">
+          <div className="form-section-header">基本情報</div>
+          <div className="form-section-body">
 
           <div className="field">
             <label>患者名<span className="required">必須</span></label>
@@ -59,19 +67,21 @@ export default function NewPatientPage() {
             <label>フリガナ</label>
             <input type="text" placeholder="ヤマダ タロウ" value={form.kana} onChange={e => set("kana", e.target.value)} />
           </div>
-          <div className="field">
-            <label>生年月日<span className="required">必須</span></label>
-            <input type="date" value={form.birthday} onChange={e => set("birthday", e.target.value)} />
-          </div>
-          <div className="field">
-            <label>性別<span className="required">必須</span></label>
-            <div className="radio-group">
-              {["男性", "女性", "その他"].map(v => (
-                <div className="radio-btn" key={v}>
-                  <input type="radio" name="gender" id={`g-${v}`} value={v} checked={form.gender === v} onChange={() => set("gender", v)} />
-                  <label htmlFor={`g-${v}`}>{v}</label>
-                </div>
-              ))}
+          <div className="form-row">
+            <div className="field">
+              <label>生年月日<span className="required">必須</span></label>
+              <input type="date" value={form.birthday} onChange={e => set("birthday", e.target.value)} />
+            </div>
+            <div className="field">
+              <label>性別<span className="required">必須</span></label>
+              <div className="radio-group">
+                {["男性", "女性", "その他"].map(v => (
+                  <div className="radio-btn" key={v}>
+                    <input type="radio" name="gender" id={`g-${v}`} value={v} checked={form.gender === v} onChange={() => set("gender", v)} />
+                    <label htmlFor={`g-${v}`}>{v}</label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="field">
@@ -91,10 +101,13 @@ export default function NewPatientPage() {
               ))}
             </select>
           </div>
+
+          </div>
         </div>
 
-        <div className="patient-info-card">
-          <div className="intake-summary-title" style={{ marginBottom: "16px" }}>初診情報</div>
+        <div className="form-section">
+          <div className="form-section-header">初診情報</div>
+          <div className="form-section-body">
 
           <div className="field">
             <label>担当スタッフ<span className="required">必須</span></label>
@@ -105,25 +118,28 @@ export default function NewPatientPage() {
           </div>
           <div className="field">
             <label>痛い部位</label>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "8px" }}>
-              {BODY_PARTS_GROUPS.flatMap(g => g.parts).map(part => {
-                const selected = form.initialPainParts.split("・").filter(Boolean).includes(part);
-                return (
-                  <button
-                    key={part} type="button"
-                    className={selected ? "part-tag" : "part-tag-sm"}
-                    style={{ cursor: "pointer", border: selected ? "none" : "1px solid var(--border)" }}
-                    onClick={() => {
-                      const parts = form.initialPainParts.split("・").filter(Boolean);
-                      const next = selected ? parts.filter(p => p !== part) : [...parts, part];
-                      set("initialPainParts", next.join("・"));
-                    }}
-                  >
-                    {part}
-                  </button>
-                );
-              })}
+            <div className="body-views" style={{ marginTop: "8px" }}>
+              <div className="body-view-col">
+                <div className="body-view-label">前面</div>
+                <div className="body-view-wrap">
+                  <FrontSVG selected={new Set(form.initialPainParts.split("・").filter(Boolean))} onToggle={togglePart} />
+                </div>
+              </div>
+              <div className="body-view-col">
+                <div className="body-view-label">背面</div>
+                <div className="body-view-wrap">
+                  <BackSVG selected={new Set(form.initialPainParts.split("・").filter(Boolean))} onToggle={togglePart} />
+                </div>
+              </div>
             </div>
+            <div className="body-map-hint">タップで部位を選択</div>
+            {form.initialPainParts && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
+                {form.initialPainParts.split("・").filter(Boolean).map(p => (
+                  <span className="part-tag" key={p}>{p}</span>
+                ))}
+              </div>
+            )}
           </div>
           <div className="field">
             <label>初診痛みレベル（1〜10）<span className="required">必須</span></label>
@@ -163,9 +179,11 @@ export default function NewPatientPage() {
               ))}
             </select>
           </div>
+
+          </div>
         </div>
 
-        <div style={{ display: "flex", gap: "12px", marginTop: "8px", marginBottom: "32px" }}>
+        <div className="form-actions">
           <button className="btn-cancel" onClick={() => router.push("/management/naginaine")}>キャンセル</button>
           <button className="btn-save" onClick={handleSave} disabled={saving}>
             {saving ? "登録中..." : "患者を登録する"}

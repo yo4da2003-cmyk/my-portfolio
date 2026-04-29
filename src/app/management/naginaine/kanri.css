@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
 
 .kanri-root {
-  --primary: #4a9b6f;
-  --primary-dark: #357a56;
-  --primary-light: #6dbd90;
-  --primary-pale: #e8f5ee;
-  --primary-ultra: #f2faf5;
-  --accent: #2d7a4f;
-  --text: #1e2d24;
-  --muted: #7a9585;
-  --border: #c8e0d2;
-  --bg: #f0f8f3;
+  --primary: #e07b2a;
+  --primary-dark: #c05f10;
+  --primary-light: #f0a060;
+  --primary-pale: #fef3e8;
+  --primary-ultra: #fff8f2;
+  --accent: #a04a08;
+  --text: #2d1e0e;
+  --muted: #9a7a5a;
+  --border: #f0d4b0;
+  --bg: #fdf6ee;
   --white: #ffffff;
   --red: #d94f4f;
   --radius: 14px;
-  --shadow: 0 2px 14px rgba(74,155,111,0.10);
+  --shadow: 0 2px 14px rgba(224,123,42,0.10);
   font-family: 'Noto Sans JP', sans-serif;
   background: var(--bg);
   color: var(--text);
@@ -38,7 +38,7 @@
   transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none;
 }
 .kanri-root input:focus, .kanri-root select:focus, .kanri-root textarea:focus {
-  outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(74,155,111,0.13);
+  outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(224,123,42,0.13);
 }
 .kanri-root textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
 
@@ -56,23 +56,23 @@
 .kanri-root .pain-scale-item label { display: flex; align-items: center; justify-content: center; height: 42px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: var(--muted); background: var(--primary-ultra); }
 .kanri-root .pain-scale-item input:checked + label { color: white; border-color: transparent; }
 .kanri-root .pain-scale-item:nth-child(1) input:checked + label{background:#4aaa72}
-.kanri-root .pain-scale-item:nth-child(2) input:checked + label{background:#6dbd6d}
-.kanri-root .pain-scale-item:nth-child(3) input:checked + label{background:#a8cc55;color:#333}
-.kanri-root .pain-scale-item:nth-child(4) input:checked + label{background:#d4b840;color:#333}
-.kanri-root .pain-scale-item:nth-child(5) input:checked + label{background:#e89430}
-.kanri-root .pain-scale-item:nth-child(6) input:checked + label{background:#e06020}
-.kanri-root .pain-scale-item:nth-child(7) input:checked + label{background:#d94040}
-.kanri-root .pain-scale-item:nth-child(8) input:checked + label{background:#c02828}
-.kanri-root .pain-scale-item:nth-child(9) input:checked + label{background:#961818}
-.kanri-root .pain-scale-item:nth-child(10) input:checked + label{background:#6a0a0a}
+.kanri-root .pain-scale-item:nth-child(2) input:checked + label{background:#a8cc55;color:#333}
+.kanri-root .pain-scale-item:nth-child(3) input:checked + label{background:#d4b840;color:#333}
+.kanri-root .pain-scale-item:nth-child(4) input:checked + label{background:#e89430}
+.kanri-root .pain-scale-item:nth-child(5) input:checked + label{background:#e06020}
+.kanri-root .pain-scale-item:nth-child(6) input:checked + label{background:#d94040}
+.kanri-root .pain-scale-item:nth-child(7) input:checked + label{background:#c02828}
+.kanri-root .pain-scale-item:nth-child(8) input:checked + label{background:#961818}
+.kanri-root .pain-scale-item:nth-child(9) input:checked + label{background:#6a0a0a}
+.kanri-root .pain-scale-item:nth-child(10) input:checked + label{background:#3d0505}
 
 .kanri-root .selected-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .kanri-root .part-tag { display: inline-flex; align-items: center; gap: 5px; background: #fde8e8; border: 1px solid #f0b8b8; color: #b83232; border-radius: 50px; padding: 4px 10px 4px 12px; font-size: 12px; font-weight: 500; }
 .kanri-root .part-tag .rm { cursor: pointer; font-size: 15px; line-height: 1; opacity: 0.7; padding: 0 2px; }
 .kanri-root .part-tag .rm:hover { opacity: 1; }
 
-.kanri-root .admin-header { background: linear-gradient(135deg, #1e4d35 0%, var(--primary-dark) 60%, var(--primary) 100%); color: white; text-align: center; padding: 28px 20px 24px; position: relative; overflow: hidden; }
-.kanri-root .admin-header::after { content: ''; display: block; height: 5px; background: linear-gradient(90deg, var(--primary-light), #a8dfc0, var(--primary-light)); position: absolute; bottom: 0; left: 0; right: 0; }
+.kanri-root .admin-header { background: linear-gradient(135deg, #7a3010 0%, var(--primary-dark) 60%, var(--primary) 100%); color: white; text-align: center; padding: 28px 20px 24px; position: relative; overflow: hidden; }
+.kanri-root .admin-header::after { content: ''; display: block; height: 5px; background: linear-gradient(90deg, var(--primary-light), #fcd34d, var(--primary-light)); position: absolute; bottom: 0; left: 0; right: 0; }
 .kanri-root .admin-header-logo { font-size: 11px; letter-spacing: 0.2em; opacity: 0.7; margin-bottom: 4px; font-weight: 300; }
 .kanri-root .admin-header-title { font-size: 22px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 2px; }
 .kanri-root .admin-header-sub { font-size: 11px; opacity: 0.65; letter-spacing: 0.1em; }
@@ -89,7 +89,7 @@
 
 .kanri-root .patient-list { display: flex; flex-direction: column; gap: 10px; }
 .kanri-root .patient-card { display: flex; align-items: center; gap: 14px; background: white; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow); }
-.kanri-root .patient-card:hover { border-color: var(--primary-light); box-shadow: 0 4px 20px rgba(74,155,111,0.18); transform: translateY(-1px); }
+.kanri-root .patient-card:hover { border-color: var(--primary-light); box-shadow: 0 4px 20px rgba(224,123,42,0.18); transform: translateY(-1px); }
 .kanri-root .patient-card:active { transform: scale(0.99); }
 
 .kanri-root .patient-avatar { width: 46px; height: 46px; min-width: 46px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: white; }
@@ -100,7 +100,7 @@
 .kanri-root .patient-name { font-size: 17px; font-weight: 700; color: var(--text); }
 .kanri-root .patient-kana { font-size: 11px; color: var(--muted); }
 .kanri-root .patient-meta { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-.kanri-root .patient-meta-sub { font-size: 11px; color: #a0b8aa; }
+.kanri-root .patient-meta-sub { font-size: 11px; color: var(--muted); }
 
 .kanri-root .patient-card-right { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .kanri-root .visit-badge { background: var(--primary-pale); color: var(--primary-dark); border: 1px solid var(--border); border-radius: 50px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
@@ -125,8 +125,8 @@
 .kanri-root .visits-section { margin-top: 4px; }
 .kanri-root .visits-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .kanri-root .visits-title { font-size: 16px; font-weight: 700; color: var(--text); }
-.kanri-root .add-record-btn { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border: none; border-radius: 50px; padding: 10px 20px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 3px 12px rgba(74,155,111,0.35); transition: all 0.15s; }
-.kanri-root .add-record-btn:hover { box-shadow: 0 5px 18px rgba(74,155,111,0.45); transform: translateY(-1px); }
+.kanri-root .add-record-btn { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border: none; border-radius: 50px; padding: 10px 20px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 3px 12px rgba(224,123,42,0.35); transition: all 0.15s; }
+.kanri-root .add-record-btn:hover { box-shadow: 0 5px 18px rgba(224,123,42,0.45); transform: translateY(-1px); }
 
 .kanri-root .timeline { position: relative; padding-left: 22px; }
 .kanri-root .timeline::before { content: ''; position: absolute; left: 7px; top: 12px; bottom: 12px; width: 2px; background: var(--border); }
@@ -146,15 +146,15 @@
 
 .kanri-root .pain-level-badge { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 50px; color: white; background: var(--primary); }
 .kanri-root .pain-level-badge[data-lv="1"] { background: #4aaa72; }
-.kanri-root .pain-level-badge[data-lv="2"] { background: #6dbd6d; }
-.kanri-root .pain-level-badge[data-lv="3"] { background: #a8cc55; color: #333; }
-.kanri-root .pain-level-badge[data-lv="4"] { background: #d4b840; color: #333; }
-.kanri-root .pain-level-badge[data-lv="5"] { background: #e89430; }
-.kanri-root .pain-level-badge[data-lv="6"] { background: #e06020; }
-.kanri-root .pain-level-badge[data-lv="7"] { background: #d94040; }
-.kanri-root .pain-level-badge[data-lv="8"] { background: #c02828; }
-.kanri-root .pain-level-badge[data-lv="9"] { background: #961818; }
-.kanri-root .pain-level-badge[data-lv="10"] { background: #6a0a0a; }
+.kanri-root .pain-level-badge[data-lv="2"] { background: #a8cc55; color: #333; }
+.kanri-root .pain-level-badge[data-lv="3"] { background: #d4b840; color: #333; }
+.kanri-root .pain-level-badge[data-lv="4"] { background: #e89430; }
+.kanri-root .pain-level-badge[data-lv="5"] { background: #e06020; }
+.kanri-root .pain-level-badge[data-lv="6"] { background: #d94040; }
+.kanri-root .pain-level-badge[data-lv="7"] { background: #c02828; }
+.kanri-root .pain-level-badge[data-lv="8"] { background: #961818; }
+.kanri-root .pain-level-badge[data-lv="9"] { background: #6a0a0a; }
+.kanri-root .pain-level-badge[data-lv="10"] { background: #3d0505; }
 
 .kanri-root .change-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
 .kanri-root .change-good { background: #e6f9ee; color: #2d7a4f; border: 1px solid #b8e8cc; }
@@ -183,7 +183,7 @@
 .kanri-root .modal-body { overflow-y: auto; padding: 18px 20px; flex: 1; }
 .kanri-root .modal-footer { display: flex; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--border); flex-shrink: 0; }
 .kanri-root .btn-cancel { flex: 1; padding: 13px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--muted); background: white; cursor: pointer; font-family: inherit; }
-.kanri-root .btn-save { flex: 2; padding: 13px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 3px 14px rgba(74,155,111,0.35); }
+.kanri-root .btn-save { flex: 2; padding: 13px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 3px 14px rgba(224,123,42,0.35); }
 .kanri-root .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .kanri-root .body-views { display: flex; gap: 24px; justify-content: center; margin: 10px 0; }
@@ -193,5 +193,12 @@
 .kanri-root .body-svg { display: block; }
 .kanri-root .body-region { transition: opacity 0.1s; }
 .kanri-root .body-region:hover { opacity: 0.85; }
-.kanri-root .lr-label { font-size: 9px; fill: rgba(80,140,100,0.5); pointer-events: none; }
+.kanri-root .lr-label { font-size: 9px; fill: rgba(192,95,16,0.5); pointer-events: none; }
 .kanri-root .body-map-hint { font-size: 11px; color: var(--muted); text-align: center; margin-top: 4px; }
+
+/* ── 新患登録フォーム用セクションカード ── */
+.kanri-root .form-section { background: white; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(240,212,176,0.8); }
+.kanri-root .form-section-header { background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 13px 18px; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+.kanri-root .form-section-body { padding: 18px; }
+.kanri-root .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.kanri-root .form-actions { display: flex; gap: 12px; margin-top: 8px; margin-bottom: 32px; }

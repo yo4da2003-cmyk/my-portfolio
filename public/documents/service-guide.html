@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y.Ydev サービスガイド</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #f0f0f0; color: #0a0a0a; }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    margin: 0 auto 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; page-break-after: always; box-shadow: none; }
+    .page:last-child { page-break-after: avoid; }
+  }
+
+  @page { size: A4; margin: 0; }
+
+  /* ── 共通部品 ── */
+  .accent { color: #f97316; }
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #f97316;
+    border: 1px solid #f97316;
+    border-radius: 50px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+  .footer-bar {
+    margin-top: auto;
+    padding: 10px 28px;
+    background: #fafafa;
+    border-top: 1px solid #f0e8e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    color: #aaa;
+  }
+
+  /* ── P1 表紙 ── */
+  .p1 { background: #0a0a0a; }
+  .p1-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 52px 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .p1-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.18), transparent);
+  }
+  .p1-top-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #f97316;
+    margin-bottom: 24px;
+  }
+  .p1-title {
+    font-size: 38px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .p1-subtitle {
+    font-size: 15px;
+    font-weight: 500;
+    color: #f97316;
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+  .p1-divider {
+    width: 48px;
+    height: 3px;
+    background: #f97316;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+  .p1-catch {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .p1-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+    margin-bottom: 52px;
+  }
+  .p1-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    width: fit-content;
+  }
+  .p1-author-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #c05f10, #f97316);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: white;
+  }
+  .p1-author-name { font-size: 14px; font-weight: 700; color: white; }
+  .p1-author-role { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+  /* ── P2 課題 ── */
+  .page-header {
+    background: linear-gradient(90deg, #c05f10 0%, #f97316 100%);
+    padding: 22px 32px 18px;
+    color: white;
+  }
+  .page-header-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .page-header-title {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+  }
+  .page-body { flex: 1; padding: 28px 32px; }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .problem-card {
+    background: #fff8f2;
+    border: 1.5px solid #fde8cc;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .problem-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: #fde8cc;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .problem-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #2d1e0e;
+    line-height: 1.7;
+  }
+  .p2-closing {
+    margin-top: 20px;
+    background: #0a0a0a;
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .p2-closing-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .p2-closing-text {
+    font-size: 13px;
+    color: white;
+    line-height: 1.7;
+  }
+  .p2-closing-text strong { color: #f97316; }
+
+  /* ── P3 自己紹介 ── */
+  .p3-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .p3-left {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .p3-right {
+    background: #fff8f2;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    border-left: 1px solid #fde8cc;
+  }
+  .p3-main-title {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.4;
+    color: #0a0a0a;
+  }
+  .p3-main-title span { color: #f97316; }
+  .p3-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.9;
+  }
+  .reason-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .reason-dot {
+    width: 20px; height: 20px;
+    background: #f97316;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .reason-dot svg { width: 10px; height: 10px; }
+  .reason-text { font-size: 12px; color: #333; line-height: 1.6; }
+  .p3-profile-box {
+    background: white;
+    border: 1.5px solid #fde8cc;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+  .p3-avatar {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #c05f10, #f97316);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 900; color: white;
+  }
+  .p3-name { font-size: 16px; font-weight: 700; color: #0a0a0a; }
+  .p3-role { font-size: 11px; color: #999; margin-top: 2px; }
+  .p3-email { font-size: 11px; color: #f97316; margin-top: 6px; }
+  .p3-stat-row {
+    display: flex;
+    gap: 10px;
+  }
+  .p3-stat {
+    flex: 1;
+    background: white;
+    border: 1px solid #fde8cc;
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .p3-stat-num { font-size: 20px; font-weight: 900; color: #f97316; }
+  .p3-stat-label { font-size: 9px; color: #999; margin-top: 2px; }
+
+  /* ── P4 HP制作 ── */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .plan-card {
+    border: 1.5px solid #f0e8e0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .plan-card-head {
+    background: #fff8f2;
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid #f0e8e0;
+  }
+  .plan-name { font-size: 14px; font-weight: 700; color: #0a0a0a; }
+  .plan-desc { font-size: 10px; color: #999; margin-top: 2px; }
+  .plan-card-body { padding: 14px 16px; }
+  .plan-price-init {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 4px;
+  }
+  .plan-price-init strong { font-size: 16px; font-weight: 700; color: #0a0a0a; }
+  .plan-price-monthly {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 12px;
+  }
+  .plan-price-monthly strong { font-size: 20px; font-weight: 900; color: #f97316; }
+  .plan-items { display: flex; flex-direction: column; gap: 5px; }
+  .plan-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: #555;
+  }
+  .plan-check {
+    width: 14px; height: 14px;
+    background: #fff0e6;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: #f97316;
+    font-size: 8px;
+    font-weight: 700;
+  }
+  .p4-note {
+    margin-top: 14px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 10px;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  /* ── P5 業務ツール ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .tool-card {
+    border: 1.5px solid #f0e8e0;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .tool-icon {
+    width: 36px; height: 36px;
+    background: #fff0e6;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .tool-name { font-size: 13px; font-weight: 700; color: #0a0a0a; margin-bottom: 4px; }
+  .tool-desc { font-size: 11px; color: #888; line-height: 1.6; }
+  .p5-price-box {
+    margin-top: 14px;
+    background: #0a0a0a;
+    border-radius: 12px;
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .p5-price-label { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .p5-price-val { font-size: 18px; font-weight: 900; color: #f97316; }
+
+  /* ── P6 デモ ── */
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .demo-card {
+    border: 1.5px solid #f0e8e0;
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .demo-card-head {
+    background: linear-gradient(90deg, #c05f10, #f97316);
+    padding: 10px 14px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .demo-card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .demo-qr-placeholder {
+    width: 80px; height: 80px;
+    background: #f5f5f5;
+    border: 1.5px dashed #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #bbb;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .demo-url { font-size: 9px; color: #aaa; word-break: break-all; }
+  .p6-note {
+    margin-top: 14px;
+    background: #fff8f2;
+    border: 1.5px solid #fde8cc;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 11px;
+    color: #c05f10;
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  /* ── P7 理由 ── */
+  .reasons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .reason-card {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1.5px solid #f0e8e0;
+    border-radius: 14px;
+    background: #fff;
+  }
+  .reason-number {
+    font-size: 36px;
+    font-weight: 900;
+    color: #fde8cc;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 48px;
+  }
+  .reason-content-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0a0a0a;
+    margin-bottom: 6px;
+  }
+  .reason-content-text {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.8;
+  }
+
+  /* ── P8 問い合わせ ── */
+  .p8-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 48px;
+    text-align: center;
+    background: #0a0a0a;
+    position: relative;
+    overflow: hidden;
+  }
+  .p8-tagline {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #f97316;
+    margin-bottom: 12px;
+  }
+  .p8-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .p8-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+  .p8-contact-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 28px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 360px;
+  }
+  .p8-contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .p8-contact-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+  }
+  .p8-contact-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+  .p8-contact-value.orange { color: #f97316; }
+  .p8-btn {
+    margin-top: 8px;
+    background: #f97316;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 32px;
+    letter-spacing: 0.05em;
+  }
+  .p8-note {
+    margin-top: 14px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── P1 表紙 ── -->
+<div class="page p1">
+  <div class="p1-body">
+    <div class="p1-circle" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+    <div class="p1-circle" style="width:200px;height:200px;bottom:20px;left:-60px;"></div>
+    <div class="p1-top-tag">WEB SOLUTIONS FOR SMALL BUSINESS</div>
+    <div class="p1-title">Y.Ydev<br>サービスガイド</div>
+    <div class="p1-subtitle">ホームページ制作 × 業務デジタル化</div>
+    <div class="p1-divider"></div>
+    <div class="p1-catch">時間を、好きなことへ。</div>
+    <div class="p1-sub">事務作業をWebに任せて、<br>あなたは本来の仕事に集中してください。</div>
+    <div class="p1-author">
+      <div class="p1-author-icon">Y</div>
+      <div>
+        <div class="p1-author-name">吉田 侑生　Web制作・業務ツール開発</div>
+        <div class="p1-author-role">個人事業主 / Y.Ydev</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── P2 課題 ── -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-label">PROBLEM</div>
+    <div class="page-header-title">こんなことで困っていませんか？</div>
+  </div>
+  <div class="page-body">
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-num">01</div>
+        <div class="problem-text">紙の問診票や予約台帳の記入・転記に毎日時間を取られている</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">02</div>
+        <div class="problem-text">ホームページが古い、またはそもそも持っていなくて新規客が来ない</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <div class="problem-text">システム化したいけど大手は高すぎて、何から始めればいいかわからない</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">04</div>
+        <div class="problem-text">スタッフが事務作業に追われて、本来の仕事に集中できない</div>
+      </div>
+    </div>
+    <div class="p2-closing">
+      <div class="p2-closing-icon">💡</div>
+      <div class="p2-closing-text">
+        Y.Ydevは、こうした課題を<strong>Webの力でまるごと解決</strong>します。<br>
+        ホームページ制作から業務ツール開発まで、一人で対応します。
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar"><span>Y.Ydev サービスガイド</span><span>2 / 8</span></div>
+</div>
+
+<!-- ── P3 自己紹介 ── -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-label">ABOUT</div>
+    <div class="page-header-title">一人だから、安くて、速い。</div>
+  </div>
+  <div class="p3-body">
+    <div class="p3-left">
+      <div class="p3-main-title">企画から実装まで<br><span>すべて一人で</span>完結。</div>
+      <div class="p3-desc">
+        大手制作会社には営業・ディレクター・デザイナー・エンジニアとそれぞれの人件費がかかります。Y.Ydevはこれらをすべて一人でこなすため、その分をそのまま価格に還元しています。<br><br>
+        「ここだけ変えたい」「この機能を追加したい」といった細かい要望にも、担当者が変わらず柔軟に対応します。
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="reason-item">
+          <div class="reason-dot">✓</div>
+          <div class="reason-text"><strong>一気通貫で対応</strong>　意図が正確に伝わります</div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-dot">✓</div>
+          <div class="reason-text"><strong>柔軟な対応</strong>　細かい要望もすぐ反映</div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-dot">✓</div>
+          <div class="reason-text"><strong>低コスト運用</strong>　月3,000円前後から運用可能</div>
+        </div>
+      </div>
+    </div>
+    <div class="p3-right">
+      <div class="p3-profile-box">
+        <div class="p3-avatar">Y</div>
+        <div class="p3-name">吉田 侑生</div>
+        <div class="p3-role">Web制作・業務ツール開発 / Y.Ydev</div>
+        <div class="p3-email">yo4da2003@gmail.com</div>
+      </div>
+      <div class="p3-stat-row">
+        <div class="p3-stat">
+          <div class="p3-stat-num">3+</div>
+          <div class="p3-stat-label">制作実績（件）</div>
+        </div>
+        <div class="p3-stat">
+          <div class="p3-stat-num">¥0</div>
+          <div class="p3-stat-label">相談・見積り</div>
+        </div>
+        <div class="p3-stat">
+          <div class="p3-stat-num">48h</div>
+          <div class="p3-stat-label">初回返信目安</div>
+        </div>
+      </div>
+      <div style="background:white;border:1px solid #fde8cc;border-radius:10px;padding:14px;font-size:11px;color:#888;line-height:1.8;">
+        もともと営業職で書類業務の多さに悩んでいた経験から、<span style="color:#f97316;font-weight:600;">「同じ悩みを持つ店舗・クリニックの力になりたい」</span>と思いWeb制作を始めました。
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar"><span>Y.Ydev サービスガイド</span><span>3 / 8</span></div>
+</div>
+
+<!-- ── P4 HP制作 ── -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-label">SERVICE 01 — WEBSITE</div>
+    <div class="page-header-title">ホームページ制作　まず、見つけてもらう。</div>
+  </div>
+  <div class="page-body">
+    <p style="font-size:12px;color:#666;line-height:1.8;">集客・採用・ブランディングを目的としたサイトを制作します。シンプルで伝わるデザインと、運用しやすい構成を心がけています。</p>
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-card-head">
+          <div class="plan-name">ライト</div>
+          <div class="plan-desc">LP・1ページ完結型</div>
+        </div>
+        <div class="plan-card-body">
+          <div class="plan-price-init">初期 <strong>¥9,800</strong></div>
+          <div class="plan-price-monthly">月額 <strong>¥9,800</strong>〜</div>
+          <div class="plan-items">
+            <div class="plan-item"><div class="plan-check">✓</div>デザイン・コーディング</div>
+            <div class="plan-item"><div class="plan-check">✓</div>レスポンシブ対応</div>
+            <div class="plan-item"><div class="plan-check">✓</div>お問い合わせフォーム</div>
+            <div class="plan-item"><div class="plan-check">✓</div>SEO基本設定</div>
+          </div>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-head" style="background:linear-gradient(90deg,#fff0e6,#fde8cc);">
+          <div class="plan-name">スタンダード</div>
+          <div class="plan-desc">LP＋サブページ 2〜3枚</div>
+        </div>
+        <div class="plan-card-body">
+          <div class="plan-price-init">初期 <strong>¥19,800</strong></div>
+          <div class="plan-price-monthly">月額 <strong>¥13,800</strong>〜</div>
+          <div class="plan-items">
+            <div class="plan-item"><div class="plan-check">✓</div>デザイン・コーディング</div>
+            <div class="plan-item"><div class="plan-check">✓</div>レスポンシブ対応</div>
+            <div class="plan-item"><div class="plan-check">✓</div>お問い合わせフォーム</div>
+            <div class="plan-item"><div class="plan-check">✓</div>SEO基本設定</div>
+            <div class="plan-item"><div class="plan-check">✓</div>サブページ制作</div>
+          </div>
+        </div>
+      </div>
+      <div class="plan-card" style="border-color:#f97316;">
+        <div class="plan-card-head" style="background:linear-gradient(90deg,#c05f10,#f97316);">
+          <div class="plan-name" style="color:white;">プレミアム</div>
+          <div class="plan-desc" style="color:rgba(255,255,255,0.7);">複数ページ＋ブログ・予約連携</div>
+        </div>
+        <div class="plan-card-body">
+          <div class="plan-price-init">初期 <strong>¥29,800</strong></div>
+          <div class="plan-price-monthly">月額 <strong>¥19,800</strong>〜</div>
+          <div class="plan-items">
+            <div class="plan-item"><div class="plan-check">✓</div>デザイン・コーディング</div>
+            <div class="plan-item"><div class="plan-check">✓</div>レスポンシブ対応</div>
+            <div class="plan-item"><div class="plan-check">✓</div>お問い合わせフォーム</div>
+            <div class="plan-item"><div class="plan-check">✓</div>SEO基本設定</div>
+            <div class="plan-item"><div class="plan-check">✓</div>サブページ制作</div>
+            <div class="plan-item"><div class="plan-check">✓</div>ブログ・予約連携</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p4-note">※ 縛りなし・解約金なし。すべてのプランにレスポンシブ対応・SEO基本設定が含まれます。運用費（ホスティング等）は別途月額0〜3,000円程度。</div>
+  </div>
+  <div class="footer-bar"><span>Y.Ydev サービスガイド</span><span>4 / 8</span></div>
+</div>
+
+<!-- ── P5 業務ツール ── -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-label">SERVICE 02 — DIGITAL TOOLS</div>
+    <div class="page-header-title">業務デジタル化　現場の手間を、ゼロへ。</div>
+  </div>
+  <div class="page-body">
+    <p style="font-size:12px;color:#666;line-height:1.8;">紙・口頭・Excelで回している業務をWebに置き換えます。スタッフの作業時間を削減し、本来の仕事に集中できる環境をつくります。</p>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">📋</div>
+        <div>
+          <div class="tool-name">デジタル問診票 / 申込フォーム</div>
+          <div class="tool-desc">紙の問診票・申込書をWeb化。受付スタッフの入力・転記作業をゼロに。部位タップ選択・痛みスケールなど直感的なUIを実装。</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📅</div>
+        <div>
+          <div class="tool-name">オンライン予約システム</div>
+          <div class="tool-desc">整骨院・美容院などに対応したオンライン予約。カレンダー選択・スタッフ管理画面まで一通り対応。</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📱</div>
+        <div>
+          <div class="tool-name">QRコード注文 / セルフオーダー</div>
+          <div class="tool-desc">飲食店・カフェ向けQRコードセルフオーダー。人件費削減と回転率向上を同時に実現。</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🗂️</div>
+        <div>
+          <div class="tool-name">顧客・スタッフ管理ツール</div>
+          <div class="tool-desc">カルテ管理・来院記録タイムライン・施術部位の人体図タップ選択など、現場で使える機能を実装。</div>
+        </div>
+      </div>
+    </div>
+    <div class="p5-price-box">
+      <div>
+        <div class="p5-price-label">初期費用</div>
+        <div class="p5-price-val">¥20,000</div>
+      </div>
+      <div style="width:1px;height:36px;background:rgba(255,255,255,0.1);"></div>
+      <div>
+        <div class="p5-price-label">月額費用</div>
+        <div class="p5-price-val">¥5,000〜</div>
+      </div>
+      <div style="width:1px;height:36px;background:rgba(255,255,255,0.1);"></div>
+      <div>
+        <div class="p5-price-label" style="color:rgba(255,255,255,0.5);font-size:11px;">縛りなし・解約金なし</div>
+        <div style="font-size:12px;color:white;margin-top:2px;">柔軟に対応します</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar"><span>Y.Ydev サービスガイド</span><span>5 / 8</span></div>
+</div>
+
+<!-- ── P6 デモ ── -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-label">DEMO</div>
+    <div class="page-header-title">実際に触れるデモをご用意しています</div>
+  </div>
+  <div class="page-body">
+    <p style="font-size:12px;color:#666;line-height:1.8;">スマホでそのまま操作できます。実際の使い心地を体験してからご検討ください。</p>
+    <div class="demo-grid">
+      <div class="demo-card">
+        <div class="demo-card-head">問診票システム</div>
+        <div class="demo-card-body">
+          <div class="demo-qr-placeholder">QRコード<br>ここに追加</div>
+          <div class="demo-url">部位タップ・痛みスケール対応</div>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-head">予約システム</div>
+        <div class="demo-card-body">
+          <div class="demo-qr-placeholder">QRコード<br>ここに追加</div>
+          <div class="demo-url">カレンダー選択・管理画面付き</div>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-head">スタッフ管理</div>
+        <div class="demo-card-body">
+          <div class="demo-qr-placeholder">QRコード<br>ここに追加</div>
+          <div class="demo-url">カルテ・来院記録管理</div>
+        </div>
+      </div>
+    </div>
+    <div class="p6-note">
+      ※ QRコードは上の枠をクリックして差し替えてください<br>
+      各デモのURLは <strong>y-ydev.com/questionnaire / /booking / /management</strong> です
+    </div>
+    <div style="margin-top:14px;display:flex;gap:10px;">
+      <div style="flex:1;background:#fff8f2;border:1px solid #fde8cc;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:#f97316;margin-bottom:4px;">単品でOK</div>
+        <div style="font-size:11px;color:#666;line-height:1.6;">「問診票だけ欲しい」「HPだけ作りたい」といった単品依頼も対応します。</div>
+      </div>
+      <div style="flex:1;background:#fff8f2;border:1px solid #fde8cc;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:#f97316;margin-bottom:4px;">組み合わせもOK</div>
+        <div style="font-size:11px;color:#666;line-height:1.6;">「HPと予約システムをセットで」など、まとめ依頼も歓迎です。</div>
+      </div>
+      <div style="flex:1;background:#fff8f2;border:1px solid #fde8cc;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:#f97316;margin-bottom:4px;">相談からでもOK</div>
+        <div style="font-size:11px;color:#666;line-height:1.6;">「何が必要かわからない」段階でも大丈夫。要件整理から一緒に考えます。</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar"><span>Y.Ydev サービスガイド</span><span>6 / 8</span></div>
+</div>
+
+<!-- ── P7 理由 ── -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-label">WHY Y.YDEV</div>
+    <div class="page-header-title">Y.Ydevが選ばれる3つの理由</div>
+  </div>
+  <div class="page-body">
+    <div class="reasons-list">
+      <div class="reason-card">
+        <div class="reason-number">01</div>
+        <div>
+          <div class="reason-content-title">企画から実装まで一気通貫</div>
+          <div class="reason-content-text">要件ヒアリング・設計・デザイン・実装まで一人で対応。担当者が変わらないので、意図が正確に伝わります。「言った・言わない」が起きません。</div>
+        </div>
+      </div>
+      <div class="reason-card">
+        <div class="reason-number">02</div>
+        <div>
+          <div class="reason-content-title">大手にはできない融通の利かせ方</div>
+          <div class="reason-content-text">「ここだけ変えたい」「この機能を追加したい」といった細かい要望にも柔軟に対応します。大手では対応に時間がかかることも、素早く反映できます。</div>
+        </div>
+      </div>
+      <div class="reason-card">
+        <div class="reason-number">03</div>
+        <div>
+          <div class="reason-content-title">低コストで運用できる設計</div>
+          <div class="reason-content-text">ホスティング・データベースは無料〜月3,000円前後で運用可能な構成を提案。導入後のランニングコストを最小限に抑えます。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar"><span>Y.Ydev サービスガイド</span><span>7 / 8</span></div>
+</div>
+
+<!-- ── P8 問い合わせ ── -->
+<div class="page">
+  <div class="p8-body">
+    <div class="p8-circle" style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.12),transparent);top:-100px;right:-100px;pointer-events:none;"></div>
+    <div class="p8-tagline">CONTACT</div>
+    <div class="p8-title">まずはお気軽に<br>ご相談ください</div>
+    <div class="p8-sub">資料のご質問・無料相談、何でもお気軽にどうぞ。<br>相談・見積もりは完全無料です。</div>
+    <div class="p8-contact-card">
+      <div class="p8-contact-item">
+        <div class="p8-contact-label">EMAIL</div>
+        <div class="p8-contact-value orange">yo4da2003@gmail.com</div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+      <div class="p8-contact-item">
+        <div class="p8-contact-label">WEB</div>
+        <div class="p8-contact-value">（サイトURLをここに追加）</div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+      <div class="p8-contact-item">
+        <div class="p8-contact-label">担当</div>
+        <div class="p8-contact-value">吉田 侑生　/ Y.Ydev</div>
+      </div>
+    </div>
+    <div class="p8-note">相談・見積もり完全無料　|　返信目安 48時間以内</div>
+  </div>
+</div>
+
+</body>
+</html>

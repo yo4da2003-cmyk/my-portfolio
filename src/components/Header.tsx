@@ -2,18 +2,19 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import DownloadModal from "./DownloadModal";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Works", href: "#works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Contact", href: "#contact" },
+  { label: "トップ", href: "/" },
+  { label: "サービス", href: "#services" },
+  { label: "実績", href: "#works" },
+  { label: "料金", href: "#pricing" },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [downloadOpen, setDownloadOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -41,17 +42,26 @@ export default function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-gray-600 hover:text-accent transition-colors tracking-wide"
+              className="text-sm font-medium text-gray-600 hover:text-[#f97316] transition-colors tracking-wide"
             >
               {link.label}
             </a>
           ))}
-          <Link
-            href="/demo"
-            className="text-sm font-semibold bg-accent text-white px-4 py-2 rounded-full hover:bg-accent-dark transition-colors"
+          <button
+            onClick={() => setDownloadOpen(true)}
+            className="text-sm font-medium text-gray-600 hover:text-[#f97316] transition-colors tracking-wide flex items-center gap-1"
           >
-            Demo
-          </Link>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v8M5 7l3 3 3-3M3 13h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            資料
+          </button>
+          <a
+            href="#contact"
+            className="text-sm font-semibold bg-[#f97316] text-white px-4 py-2 rounded-full hover:bg-[#ea6c05] transition-colors"
+          >
+            無料相談
+          </a>
         </nav>
 
         {/* Mobile hamburger */}
@@ -66,26 +76,37 @@ export default function Header() {
         </button>
       </div>
 
+      {downloadOpen && <DownloadModal onClose={() => setDownloadOpen(false)} />}
+
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 flex flex-col gap-3">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-gray-700 hover:text-accent transition-colors py-1"
+              className="text-sm font-medium text-gray-700 hover:text-[#f97316] transition-colors py-1"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
             </a>
           ))}
-          <Link
-            href="/demo"
-            className="text-sm font-semibold bg-accent text-white px-4 py-2 rounded-full text-center hover:bg-accent-dark transition-colors"
+          <button
+            onClick={() => { setMenuOpen(false); setDownloadOpen(true); }}
+            className="text-sm font-medium text-gray-700 hover:text-[#f97316] transition-colors py-1 flex items-center gap-1.5"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v8M5 7l3 3 3-3M3 13h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            資料をダウンロード
+          </button>
+          <a
+            href="#contact"
+            className="text-sm font-semibold bg-[#f97316] text-white px-4 py-2.5 rounded-full text-center hover:bg-[#ea6c05] transition-colors"
             onClick={() => setMenuOpen(false)}
           >
-            Demo
-          </Link>
+            無料相談
+          </a>
         </div>
       )}
     </header>
