@@ -136,21 +136,51 @@ export default function Home() {
         {/* ── HERO ── */}
         <section className="relative min-h-screen flex flex-col justify-end bg-[#0a0a0a] overflow-hidden">
           <Image
-            src="/images/hero2.png"
-            alt="時間を、好きなことへ。"
+            src="/images/hero2-sm.png"
+            alt=""
             fill
-            className="object-cover object-center"
-            priority
+            sizes="100vw"
+            className="object-cover md:hidden"
+            fetchPriority="high"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/10 to-transparent" />
+          <Image
+            src="/images/hero2.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover hidden md:block"
+            fetchPriority="high"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-[#0a0a0a]/30 md:via-[#0a0a0a]/10 md:to-transparent" />
+
+          <div className="absolute top-6 left-6 md:top-10 md:left-12 text-white text-sm md:text-base font-semibold tracking-[0.15em] z-10">
+            Y.Ydev
+          </div>
+
+          <div
+            className="absolute top-[26%] md:top-1/3 left-0 right-0 z-10"
+            style={{ animation: "fadeUp 0.6s ease 0.3s both" }}
+          >
+            <div className="max-w-6xl mx-auto px-6">
+              <h1 className="text-white text-4xl md:text-6xl font-bold leading-tight tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+                <span className="block md:inline">時間を、</span>
+                <span className="block md:inline">好きなことへ。</span>
+              </h1>
+              <p className="mt-4 md:mt-6 text-white/90 text-sm md:text-lg leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
+                事務作業はWebに任せて、<br className="md:hidden" />あなたは本業に集中してください。
+              </p>
+            </div>
+          </div>
 
           {/* 右下：資料ダウンロードボタン */}
-          <div className="absolute bottom-24 right-6 md:right-12" style={{ animation: "fadeUp 0.6s ease 0.6s both" }}>
+          <div className="absolute bottom-24 right-6 md:right-12 z-10" style={{ animation: "fadeUp 0.6s ease 0.6s both" }}>
             <HeroDownloadButton />
           </div>
 
           <div
-            className="relative max-w-6xl mx-auto px-6 pb-24 w-full"
+            className="relative max-w-6xl mx-auto px-6 pb-24 w-full z-10"
             style={{ animation: "fadeUp 0.6s ease 0.3s both" }}
           >
             <div className="flex flex-wrap gap-4">
