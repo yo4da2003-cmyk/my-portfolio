@@ -6,13 +6,11 @@ import HeroDownloadButton from "@/components/HeroDownloadButton";
 import {
   FileText,
   Users,
-  Globe,
   Wallet,
   ClipboardList,
   CalendarDays,
-  QrCode,
-  LayoutDashboard,
-  Monitor,
+  Smartphone,
+  Sliders,
   Target,
   Link2,
   MessageCircle,
@@ -20,48 +18,57 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const painPoints: { icon: LucideIcon; text: string }[] = [
+const painPoints: string[] = [
+  "紙の問診票の記入・転記・保管に、毎日時間を取られている",
+  "待合室で問診票を書く時間が、患者さんのストレスになっている",
+  "自院に合わせて問診項目を変えたいが、既製SaaSはカスタマイズ料金が高い",
+  "大手SaaSは月15,000円〜と高すぎて、小規模院では手が出ない",
+];
+
+type MeritVisual = { icon: LucideIcon; label: string; sub: string };
+const merits: { num: string; title: string; desc: string; before: MeritVisual; after: MeritVisual }[] = [
   {
-    icon: FileText,
-    text: "紙の問診票や予約台帳の入力・転記に毎日時間を取られている",
+    num: "メリット1",
+    title: "受付スタッフの転記作業が、ゼロに。",
+    desc: "紙の問診票は、記入後に受付スタッフがカルテへ手書きで転記し、ファイリング・保管する必要があります。Web問診票なら入力データがそのまま管理画面に反映され、転記・保管の作業がゼロに。空いた時間で患者さんとの会話や施術準備に集中できます。",
+    before: { icon: FileText, label: "紙の問診票", sub: "手書き転記が必要" },
+    after: { icon: ClipboardList, label: "Web入力", sub: "データが自動連携" },
   },
   {
-    icon: Users,
-    text: "スタッフが注文取りや受付に追われて、本来の仕事に集中できない",
+    num: "メリット2",
+    title: "待合室の混雑とストレスを、解消。",
+    desc: "来院後に問診票を書く運用だと、混雑時に患者さんを長く待たせ、満足度が下がります。事前にスマホで入力できるWeb問診票なら、来院後すぐ施術へ。患者さんも院もスムーズに動けます。",
+    before: { icon: Users, label: "待合室で記入", sub: "混雑・待ち時間" },
+    after: { icon: Smartphone, label: "来院前に入力", sub: "すぐ施術へ" },
   },
   {
-    icon: Globe,
-    text: "ホームページが古い、またはそもそも持っていなくて新規客が来ない",
+    num: "メリット3",
+    title: "自院仕様に、項目を自由設計。",
+    desc: "既製SaaSは項目変更が有料 or 制限ありが一般的。Y.Ydevは「カスタマイズ・改修は月額に込み」なので、運用しながら自院の施術内容や患者層に合わせて、問診項目を自由に変えられます。",
+    before: { icon: FileText, label: "既製テンプレ", sub: "カスタマイズ有料" },
+    after: { icon: Sliders, label: "自院専用フォーム", sub: "改修費は月額込み" },
   },
   {
-    icon: Wallet,
-    text: "システム化したいけど大手は高すぎて、何から始めればいいかわからない",
+    num: "メリット4",
+    title: "大手SaaSの1/3価格で、導入。",
+    desc: "大手SaaSは月額1.5万円〜が相場。Y.Ydevは月5,000円・初期7万円から。電子カルテ未導入の小規模院でも、無理なく導入できる価格設計です。",
+    before: { icon: Wallet, label: "月15,000円〜", sub: "大手SaaS" },
+    after: { icon: Wallet, label: "月5,000円", sub: "Y.Ydev" },
   },
 ];
 
 const servicePillars = [
   {
-    icon: Monitor,
-    category: "ホームページ制作",
-    tagline: "まず、見つけてもらう。",
-    desc: "集客・採用・ブランディングを目的としたサイトを制作。シンプルで伝わるデザインと、更新しやすい構成を心がけています。",
+    icon: ClipboardList,
+    eyebrow: "Digital Questionnaire",
+    category: "デジタル問診票",
+    tagline: "受付の手間を、ゼロへ。",
+    desc: "整骨院・自費治療院向けに、紙の問診票をスマホ・タブレットで完結するWeb問診票に置き換えます。受付スタッフの記入・転記作業を削減し、患者さんの待ち時間も短縮します。電子カルテ未導入の院でも単独導入できる軽量設計です。",
     items: [
-      { icon: Monitor, label: "LP・ランディングページ" },
-      { icon: Globe, label: "コーポレートサイト" },
-      { icon: FileText, label: "採用・ブログページ連携" },
-    ],
-    dark: true,
-  },
-  {
-    icon: LayoutDashboard,
-    category: "業務デジタル化",
-    tagline: "現場の手間を、ゼロへ。",
-    desc: "紙・口頭・Excelで回している業務をWebに置き換えます。スタッフの作業時間を削減し、本来の仕事に集中できる環境をつくります。",
-    items: [
-      { icon: ClipboardList, label: "デジタル問診票 / 申込フォーム" },
-      { icon: CalendarDays, label: "オンライン予約システム" },
-      { icon: QrCode, label: "QRコード注文 / セルフオーダー" },
-      { icon: LayoutDashboard, label: "顧客・スタッフ管理ツール" },
+      { icon: ClipboardList, label: "スマホ・タブレットで記入完了" },
+      { icon: FileText, label: "項目・帳票は自院仕様にカスタマイズ" },
+      { icon: Users, label: "スタッフ向け管理画面・一覧出力" },
+      { icon: CalendarDays, label: "予約・カルテ管理との連携も対応可" },
     ],
     dark: false,
   },
@@ -70,18 +77,18 @@ const servicePillars = [
 const orderTypes: { icon: LucideIcon; title: string; desc: string }[] = [
   {
     icon: Target,
-    title: "単品でOK",
-    desc: "「問診票だけ欲しい」「HPだけ作りたい」といった単品依頼ももちろん対応します。",
+    title: "問診票だけでもOK",
+    desc: "「まず問診票だけ試したい」という単品依頼ももちろん対応。最小構成からスタートできます。",
   },
   {
     icon: Link2,
-    title: "組み合わせもOK",
-    desc: "「HPと予約システムをセットで」など、複数サービスのまとめ依頼も歓迎です。",
+    title: "予約・カルテとセットもOK",
+    desc: "「問診票と予約をセットで」「カルテ管理も追加で」など、機能の組み合わせも歓迎です。",
   },
   {
     icon: MessageCircle,
     title: "相談からでもOK",
-    desc: "「何が必要かわからない」という段階でも大丈夫。要件整理から一緒に考えます。",
+    desc: "「何から始めればいいかわからない」という段階でも大丈夫。要件整理から一緒に考えます。",
   },
 ];
 
@@ -93,8 +100,8 @@ const reasons = [
   },
   {
     num: "02",
-    title: "大手にはできない融通の利かせ方",
-    desc: "「ここだけ変えたい」「この機能を追加したい」といった細かい要望にも柔軟に対応します。",
+    title: "カスタマイズ・改修は月額に込み",
+    desc: "問診票の項目変更、帳票書式の調整、新機能追加。月額料金に改修対応が含まれているので、運用しながら自院仕様に育てていけます。",
   },
   {
     num: "03",
@@ -106,22 +113,22 @@ const reasons = [
 const works = [
   {
     tag: "DEMO",
-    title: "問診票システム",
-    desc: "紙の問診票をWeb化したデモです。受付スタッフの記入・転記作業をゼロに。部位タップ選択・痛みスケールなど、患者が直感的に操作できるUIを実装しています。",
+    title: "デジタル問診票（整骨院向け）",
+    desc: "紙の問診票をWebに置き換えたデモです。スマホ・タブレットで完結し、受付スタッフの記入・転記作業をゼロに。部位タップ選択・痛みスケールなど、整骨院の現場でそのまま使えるUIを実装しています。",
     href: "/questionnaire/seikotsu-in",
     screenshot: "/screenshots/questionnaire.png",
   },
   {
     tag: "DEMO",
-    title: "予約システム",
-    desc: "整骨院・美容院などに対応したオンライン予約デモです。メニュー選択・カレンダー日時選択・スタッフ向け管理画面（ステータス更新）まで一通り体験できます。",
+    title: "予約システム（連携対応）",
+    desc: "問診票とセット導入できるオンライン予約デモです。メニュー選択・カレンダー日時選択・スタッフ向け管理画面（ステータス更新）まで一通り体験できます。",
     href: "/booking/seikotsu-in",
     screenshot: "/screenshots/booking.png",
   },
   {
     tag: "DEMO",
-    title: "スタッフ管理システム",
-    desc: "患者カルテの管理・来院記録のタイムライン表示・施術部位の人体図タップ選択など、現場で使える機能を実装したデモです。",
+    title: "カルテ・来院管理（問診票連携可）",
+    desc: "Web問診票の内容をそのままカルテに引き継げる管理画面デモです。来院履歴のタイムライン表示・施術部位の人体図タップ選択など、紙運用からの移行を想定した機能を実装しています。",
     href: "/management/naginaine",
     screenshot: "/screenshots/management.png",
   },
@@ -169,7 +176,7 @@ export default function Home() {
                 <span className="block md:inline">好きなことへ。</span>
               </h1>
               <p className="mt-4 md:mt-6 text-white/90 text-sm md:text-lg leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
-                事務作業はWebに任せて、<br className="md:hidden" />あなたは本業に集中してください。
+                紙の問診票はWebに任せて、<br className="md:hidden" />あなたは患者さんと向き合う時間を増やしてください。
               </p>
             </div>
           </div>
@@ -210,19 +217,78 @@ export default function Home() {
 
         {/* ── PAIN POINTS ── */}
         <section className="bg-gray-50 py-24 md:py-32 border-t border-gray-100">
-          <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-3xl mx-auto px-6 text-center">
             <FadeIn>
-              <p className="text-xs font-semibold tracking-[0.2em] text-[#f97316] uppercase mb-4">Problem</p>
-              <h2 className="text-3xl md:text-4xl font-bold mb-14 text-[#0a0a0a]">
-                こんなことで<br />困っていませんか？
+              <p className="text-xs font-semibold tracking-[0.2em] text-[#f97316] uppercase mb-6">Problem</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-14 leading-tight text-[#f97316]">
+                こんなことに、<br />困っていませんか？
               </h2>
             </FadeIn>
-            <div className="grid sm:grid-cols-2 gap-6">
-              {painPoints.map((p, i) => (
-                <FadeIn key={p.text} delay={i * 100}>
-                  <div className="flex items-start gap-4 bg-white border border-gray-100 rounded-2xl p-7 hover:border-[#f97316] hover:shadow-md transition-all duration-300">
-                    <p.icon className="w-6 h-6 text-[#f97316] shrink-0 mt-0.5" />
-                    <p className="text-gray-700 leading-relaxed">{p.text}</p>
+            <ul className="flex flex-col gap-5 text-left max-w-2xl mx-auto">
+              {painPoints.map((text, i) => (
+                <FadeIn key={text} delay={i * 80}>
+                  <li className="flex items-start gap-4">
+                    <span className="flex-shrink-0 w-7 h-7 rounded-full border-2 border-[#f97316] flex items-center justify-center mt-0.5">
+                      <Check className="w-4 h-4 text-[#f97316]" strokeWidth={3} />
+                    </span>
+                    <p className="text-base md:text-lg text-gray-800 leading-relaxed pt-0.5">{text}</p>
+                  </li>
+                </FadeIn>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── MERITS ── */}
+        <section className="bg-white py-24 md:py-32 border-t border-gray-100">
+          <div className="max-w-6xl mx-auto px-6">
+            <FadeIn>
+              <p className="text-xs font-semibold tracking-[0.2em] text-[#f97316] uppercase mb-4">Merit</p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0a0a0a]">
+                Y.Ydev問診票の<br className="md:hidden" />4つのメリット
+              </h2>
+              <p className="text-gray-500 mb-16 text-sm">紙運用から切り替えた院は、ここが変わります。</p>
+            </FadeIn>
+
+            <div className="flex flex-col gap-20">
+              {merits.map((m, i) => (
+                <FadeIn key={m.num} delay={i * 80}>
+                  <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+                    {/* 左：テキスト */}
+                    <div>
+                      <p className="text-sm font-semibold text-[#f97316] mb-3 tracking-wide">— {m.num}</p>
+                      <h3 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] mb-5 leading-tight">
+                        {m.title}
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                        {m.desc}
+                      </p>
+                    </div>
+
+                    {/* 右：Before / After */}
+                    <div className="flex items-center gap-3 md:gap-5">
+                      <div className="flex-1 rounded-2xl bg-gray-50 border border-gray-200 p-5 md:p-6 flex flex-col items-center text-center min-h-[170px]">
+                        <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-3">Before</p>
+                        <div className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center mb-3">
+                          <m.before.icon className="w-6 h-6 text-gray-400" />
+                        </div>
+                        <p className="text-sm font-semibold text-gray-700 mb-1">{m.before.label}</p>
+                        <p className="text-xs text-gray-400">{m.before.sub}</p>
+                      </div>
+
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#f97316]">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+
+                      <div className="flex-1 rounded-2xl bg-orange-50 border border-[#f97316]/40 p-5 md:p-6 flex flex-col items-center text-center min-h-[170px]">
+                        <p className="text-[10px] font-bold tracking-widest text-[#f97316] uppercase mb-3">After</p>
+                        <div className="w-12 h-12 rounded-full bg-white border border-[#f97316]/40 flex items-center justify-center mb-3">
+                          <m.after.icon className="w-6 h-6 text-[#f97316]" />
+                        </div>
+                        <p className="text-sm font-semibold text-[#0a0a0a] mb-1">{m.after.label}</p>
+                        <p className="text-xs text-gray-500">{m.after.sub}</p>
+                      </div>
+                    </div>
                   </div>
                 </FadeIn>
               ))}
@@ -238,41 +304,39 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0a0a0a]">
                 解決できること
               </h2>
-              <p className="text-gray-500 mb-14 text-sm">2つの柱で、お店の課題をまるごと解決します。</p>
+              <p className="text-gray-500 mb-14 text-sm">紙の問診票運用を、シンプルに置き換えます。</p>
             </FadeIn>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {servicePillars.map((p, i) => (
-                <FadeIn key={p.category} delay={i * 120}>
-                  <div className={`h-full rounded-2xl overflow-hidden flex flex-col border transition-all duration-300 hover:shadow-2xl ${p.dark ? "bg-[#0a0a0a] border-[#1f1f1f] hover:border-[#f97316]/40" : "bg-white border-gray-100 hover:border-[#f97316]"}`}>
-                    {/* カードヘッダー */}
-                    <div className={`px-8 pt-8 pb-6 ${p.dark ? "" : "border-b border-gray-100"}`}>
-                      <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 ${p.dark ? "bg-[#f97316]/15" : "bg-orange-50"}`}>
+            <div className="max-w-2xl mx-auto">
+              {servicePillars.map((p) => (
+                <FadeIn key={p.category}>
+                  <div className="h-full rounded-2xl overflow-hidden flex flex-col border bg-white border-gray-100 hover:border-[#f97316] transition-all duration-300 hover:shadow-2xl">
+                    <div className="px-8 pt-8 pb-6 border-b border-gray-100">
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 bg-orange-50">
                         <p.icon className="w-6 h-6 text-[#f97316]" />
                       </div>
-                      <p className={`text-xs font-semibold tracking-widest uppercase mb-2 ${p.dark ? "text-[#f97316]" : "text-[#f97316]"}`}>
-                        {i === 0 ? "Website" : "Digital Tools"}
+                      <p className="text-xs font-semibold tracking-widest uppercase mb-2 text-[#f97316]">
+                        {p.eyebrow}
                       </p>
-                      <h3 className={`text-2xl font-bold mb-2 ${p.dark ? "text-white" : "text-[#0a0a0a]"}`}>
+                      <h3 className="text-2xl font-bold mb-2 text-[#0a0a0a]">
                         {p.category}
                       </h3>
-                      <p className={`text-base font-medium ${p.dark ? "text-[#f97316]" : "text-[#f97316]"}`}>
+                      <p className="text-base font-medium text-[#f97316]">
                         {p.tagline}
                       </p>
                     </div>
 
-                    {/* カードボディ */}
                     <div className="px-8 py-6 flex flex-col gap-6 flex-1">
-                      <p className={`text-sm leading-relaxed ${p.dark ? "text-gray-400" : "text-gray-500"}`}>
+                      <p className="text-sm leading-relaxed text-gray-500">
                         {p.desc}
                       </p>
                       <ul className="flex flex-col gap-3">
                         {p.items.map((item) => (
                           <li key={item.label} className="flex items-center gap-3">
-                            <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${p.dark ? "bg-[#f97316]/20" : "bg-orange-50"}`}>
+                            <span className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center bg-orange-50">
                               <Check className="w-3 h-3 text-[#f97316]" />
                             </span>
-                            <span className={`text-sm font-medium ${p.dark ? "text-gray-200" : "text-gray-700"}`}>
+                            <span className="text-sm font-medium text-gray-700">
                               {item.label}
                             </span>
                           </li>
@@ -281,7 +345,7 @@ export default function Home() {
                       <div className="mt-auto pt-2">
                         <a
                           href="#pricing"
-                          className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${p.dark ? "text-[#f97316] hover:text-orange-300" : "text-[#0a0a0a] hover:text-[#f97316]"}`}
+                          className="inline-flex items-center gap-2 text-sm font-semibold transition-colors text-[#0a0a0a] hover:text-[#f97316]"
                         >
                           料金を見る
                           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -417,38 +481,53 @@ export default function Home() {
               </div>
             </FadeIn>
 
-            {/* ホームページ制作 */}
+            {/* デジタル問診票 */}
             <FadeIn delay={80}>
-              <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-5">ホームページ制作</p>
+              <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-5">デジタル問診票</p>
             </FadeIn>
-            <div className="grid sm:grid-cols-3 gap-5 mb-12">
+            <div className="grid sm:grid-cols-2 gap-5 mb-8">
               {[
                 {
-                  name: "ライト",
-                  init: "¥9,800",
-                  monthly: "¥9,800",
-                  desc: "LP型（1ページ完結）",
-                  items: ["デザイン・コーディング", "レスポンシブ対応", "お問い合わせフォーム", "SEO基本設定"],
+                  name: "ベーシック",
+                  init: "¥70,000",
+                  monthly: "¥5,000",
+                  desc: "テンプレート＋自院ロゴ・色調整",
+                  items: [
+                    "問診票テンプレート（整骨院向け標準項目）",
+                    "自院ロゴ・カラー反映",
+                    "スマホ・タブレット対応UI",
+                    "スタッフ向け管理画面",
+                    "操作サポート",
+                  ],
+                  highlight: false,
                 },
                 {
-                  name: "スタンダード",
-                  init: "¥19,800",
-                  monthly: "¥13,800",
-                  desc: "LP + サブページ 2〜3枚",
-                  items: ["デザイン・コーディング", "レスポンシブ対応", "お問い合わせフォーム", "SEO基本設定", "サブページ制作"],
-                },
-                {
-                  name: "プレミアム",
-                  init: "¥29,800",
-                  monthly: "¥19,800",
-                  desc: "複数ページ + ブログ・予約連携",
-                  items: ["デザイン・コーディング", "レスポンシブ対応", "お問い合わせフォーム", "SEO基本設定", "サブページ制作", "ブログ・予約連携"],
+                  name: "カスタム",
+                  init: "¥100,000",
+                  monthly: "¥5,000",
+                  desc: "項目自由設計＋帳票カスタム",
+                  items: [
+                    "問診項目の自由設計",
+                    "帳票・出力フォーマットのカスタム",
+                    "予約・カルテ管理との連携対応",
+                    "スマホ・タブレット対応UI",
+                    "スタッフ向け管理画面",
+                    "操作サポート",
+                  ],
+                  highlight: true,
                 },
               ].map((plan, i) => (
                 <FadeIn key={plan.name} delay={i * 80 + 100}>
-                  <div className="h-full rounded-2xl border border-gray-100 bg-gray-50 p-7 flex flex-col gap-5">
+                  <div className={`h-full rounded-2xl border p-7 flex flex-col gap-5 ${plan.highlight ? "border-[#f97316] bg-orange-50/40 shadow-lg shadow-orange-100" : "border-gray-100 bg-gray-50"}`}>
                     <div>
-                      <p className="text-base font-bold text-[#0a0a0a] mb-1">{plan.name}</p>
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-base font-bold text-[#0a0a0a]">{plan.name}</p>
+                        {plan.highlight && (
+                          <span className="text-[10px] font-semibold tracking-widest uppercase text-white bg-[#f97316] px-2 py-0.5 rounded-full">
+                            Recommend
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-gray-400">{plan.desc}</p>
                     </div>
                     <div>
@@ -463,7 +542,7 @@ export default function Home() {
                     </div>
                     <ul className="flex flex-col gap-2">
                       {plan.items.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-gray-500">
+                        <li key={item} className="flex items-center gap-2 text-xs text-gray-600">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#f97316] shrink-0" />
                           {item}
                         </li>
@@ -474,30 +553,13 @@ export default function Home() {
               ))}
             </div>
 
-            {/* 自動化ツール */}
-            <FadeIn delay={80}>
-              <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-5">自動化ツール（問診票 / 予約 / QRオーダー）</p>
-            </FadeIn>
-            <FadeIn delay={120}>
-              <div className="rounded-2xl border border-gray-100 bg-gray-50 p-8 mb-12 flex flex-col sm:flex-row sm:items-center gap-8">
-                <div className="shrink-0">
-                  <div className="flex items-end gap-1.5 mb-1">
-                    <span className="text-2xl font-bold text-[#0a0a0a]">¥20,000</span>
-                    <span className="text-sm text-gray-400 mb-0.5">初期（税別）</span>
-                  </div>
-                  <div className="flex items-end gap-1.5">
-                    <span className="text-3xl font-bold text-[#f97316]">¥5,000</span>
-                    <span className="text-sm text-gray-400 mb-0.5">/ 月（税別）</span>
-                  </div>
-                </div>
-                <ul className="grid sm:grid-cols-2 gap-2 flex-1">
-                  {["システム設計・実装", "スマホ対応UI", "スタッフ向け管理画面", "機能の小改善・調整（月1〜2回）", "不具合・バグ対応", "操作サポート"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-gray-600">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#f97316] shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+            <FadeIn delay={140}>
+              <div className="rounded-2xl border border-[#f97316]/30 bg-orange-50 px-6 py-5 mb-12 flex items-start gap-3">
+                <Check className="w-5 h-5 text-[#f97316] shrink-0 mt-0.5" />
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  <span className="font-semibold text-[#0a0a0a]">カスタマイズ・改修は月額に込み。</span>
+                  項目の追加・帳票の調整・新機能の追加など、運用しながらの改修対応はすべて月額5,000円に含まれています。追加料金は発生しません。
+                </p>
               </div>
             </FadeIn>
 
